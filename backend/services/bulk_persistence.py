@@ -6,10 +6,16 @@ from services.utils.phone_utils import normalize_phone
 logger = setup_logger(__name__)
 
 async def get_sent_phones_set(db, trigger_id: int) -> set:
-    """Retorna um conjunto de telefones que já receberam mensagem com sucesso para este trigger."""
+    """Retorna um conjunto de telefones que já foram processados para este trigger (enviados, entregues, lidos, pulados, falhos ou bloqueados)."""
+    child_ids = [
+        c[0] for c in db.query(models.ScheduledTrigger.id).filter(
+            models.ScheduledTrigger.parent_id == trigger_id
+        ).all()
+    ]
+    all_trigger_ids = [trigger_id] + child_ids
     sent_phones_raw = db.query(models.MessageStatus.phone_number).filter(
-        models.MessageStatus.trigger_id == trigger_id,
-        models.MessageStatus.status == 'sent'
+        models.MessageStatus.trigger_id.in_(all_trigger_ids),
+        models.MessageStatus.status.in_(['sent', 'delivered', 'read', 'interaction', 'skipped', 'failed', 'blocked'])
     ).all()
     return {normalize_phone(p[0]) for p in sent_phones_raw if p[0]}
 

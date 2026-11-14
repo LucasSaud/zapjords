@@ -18,6 +18,24 @@ export default function TriggerActionButtons({
   const isPipelineSupported = (triggerWithActions.funnel_id || triggerWithActions.product_name === 'SCALE_TEST' || (triggerWithActions.button_actions && Object.keys(triggerWithActions.button_actions).length > 0)) &&
     Array.isArray(triggerWithActions.execution_history) && triggerWithActions.execution_history.some(log => log.node_id);
 
+  const totalContacts = triggerWithActions.total_contacts || (triggerWithActions.contacts_list?.length) || 0;
+  const processedNum = (triggerWithActions.total_sent || 0) + (triggerWithActions.total_failed || 0) + (triggerWithActions.total_skipped || 0) + (triggerWithActions.total_blocked || 0);
+  const processedArr = triggerWithActions.processed_contacts?.length || 0;
+  const processedContacts = Math.max(processedArr, processedNum);
+  const remainingContacts = Math.max(0, totalContacts - processedContacts);
+  const hasRemainingContacts = Boolean(
+    triggerWithActions.is_bulk &&
+    remainingContacts > 0 &&
+    !['processing', 'pending', 'queued'].includes(triggerWithActions.status)
+  );
+  const showResumeControls =
+    triggerWithActions.status === 'failed' ||
+    triggerWithActions.status === 'cancelled' ||
+    triggerWithActions.status === 'paused' ||
+    triggerWithActions.status === 'cancelling' ||
+    triggerWithActions.status === 'aborted' ||
+    hasRemainingContacts;
+
   return (
     <td className="p-4 text-right flex justify-end gap-2">
       {/* 0. VISUALIZAR FLUXO */}
@@ -100,8 +118,8 @@ export default function TriggerActionButtons({
         </>
       )}
 
-      {/* 3. DISPAROS FINALIZADOS, PAUSADOS, CANCELADOS OU EM ENCERRAMENTO */}
-      {(triggerWithActions.status === 'failed' || triggerWithActions.status === 'cancelled' || triggerWithActions.status === 'paused' || triggerWithActions.status === 'cancelling') && (
+      {/* 3. DISPAROS FINALIZADOS COM RESTANTES, PAUSADOS, CANCELADOS OU EM ENCERRAMENTO */}
+      {showResumeControls && (
         <div className="flex items-center gap-2">
           {triggerWithActions.is_bulk && (
             <TriggerTableTip text="Ajustar o delay entre disparos e o limite de concorrência antes de retomar.">
@@ -112,8 +130,12 @@ export default function TriggerActionButtons({
               </button>
             </TriggerTableTip>
           )}
-          <TriggerTableTip text="Retomar o disparo a partir do último contato enviado.">
-            <button onClick={() => handleStartNow(triggerWithActions.id)} className="p-1 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded flex items-center gap-1 cursor-pointer">
+          <TriggerTableTip text={hasRemainingContacts ? `Reenviar apenas para os ${remainingContacts} contatos restantes que ainda não receberam.` : "Retomar o disparo a partir do último contato enviado."}>
+            <button
+              onClick={() => handleStartNow(triggerWithActions.id, hasRemainingContacts ? remainingContacts : null)}
+              className="p-1 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded flex items-center gap-1 cursor-pointer"
+              title={hasRemainingContacts ? `Reenviar para os ${remainingContacts} contatos restantes` : "Retomar Disparo"}
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

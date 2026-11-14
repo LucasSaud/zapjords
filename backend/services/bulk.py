@@ -96,11 +96,31 @@ async def process_bulk_send(
         total = len(contacts)
         all_phones = [normalize_phone(c if isinstance(c, str) else (c.get('phone') or c.get('telefone') or '')) for c in contacts]
 
-        init_trig.contacts_list = contacts
-        init_trig.pending_contacts = all_phones
-        init_trig.processed_contacts = []
-        init_trig.total_sent = init_trig.total_failed = init_trig.total_blocked = 0
-        init_trig.total_contacts = total
+        existing_status_count = db_init.query(models.MessageStatus).filter(
+            models.MessageStatus.trigger_id == trigger_id
+        ).count()
+
+        if existing_status_count > 0:
+            # Retomada de disparo parcial ou retry: preserva contatos originais e contadores já processados
+            if not init_trig.contacts_list or len(contacts) >= len(init_trig.contacts_list):
+                init_trig.contacts_list = contacts
+                init_trig.total_contacts = total
+            else:
+                total = init_trig.total_contacts or len(init_trig.contacts_list)
+            init_trig.pending_contacts = all_phones
+            try:
+                from services.triggers_service import reconcile_trigger_stats_logic
+                await reconcile_trigger_stats_logic(trigger_id, init_trig.client_id, db_init)
+            except Exception as e_init_rec:
+                logger.warning(f"⚠️ [BULK RESUME] Aviso ao reconciliar contadores iniciais do trigger #{trigger_id}: {e_init_rec}")
+            init_trig.status = "processing"
+        else:
+            init_trig.contacts_list = contacts
+            init_trig.pending_contacts = all_phones
+            init_trig.processed_contacts = []
+            init_trig.total_sent = init_trig.total_failed = init_trig.total_blocked = 0
+            init_trig.total_contacts = total
+            init_trig.status = "processing"
 
         # Timestamp de início (preserva se já existir no resume)
         pdata = dict(init_trig.processed_data or {})
@@ -353,13 +373,45 @@ async def process_bulk_send(
                         if tpl_media_url:
                             vars_dict["var5"] = tpl_media_url
 
-                        msg_status = models.MessageStatus(
-                            trigger_id=trigger_id, message_id=message_id, phone_number=meta["phone"],
-                            contact_name=meta.get("name") or "",
-                            status='sent', message_type=msg_type, content=content, template_name=template_name,
-                            **vars_dict
-                        )
-                        db_batch.add(msg_status)
+                        existing_ms = db_batch.query(models.MessageStatus).filter(
+                            models.MessageStatus.message_id == message_id
+                        ).first()
+                        early_status = 'sent'
+                        early_deliv_counted = False
+                        early_read_counted = False
+                        early_price_brl = None
+                        early_price_cat = None
+
+                        if existing_ms:
+                            if existing_ms.trigger_id != trigger_id:
+                                if existing_ms.status in ('delivered', 'read', 'interaction'):
+                                    early_status = existing_ms.status
+                                    early_deliv_counted = bool(existing_ms.delivered_counted)
+                                    early_read_counted = bool(existing_ms.read_counted)
+                                    early_price_brl = existing_ms.meta_price_brl
+                                    early_price_cat = existing_ms.meta_price_category
+                                existing_ms.message_id = f"reclaimed_{existing_ms.id}_{existing_ms.trigger_id}"
+                                db_batch.flush()
+                                existing_ms = None
+                            else:
+                                existing_ms.phone_number = meta["phone"]
+                                existing_ms.contact_name = meta.get("name") or ""
+                                existing_ms.message_type = msg_type
+                                existing_ms.content = content
+                                existing_ms.template_name = template_name
+                                for k_v, v_v in vars_dict.items():
+                                    setattr(existing_ms, k_v, v_v)
+
+                        if not existing_ms:
+                            msg_status = models.MessageStatus(
+                                trigger_id=trigger_id, message_id=message_id, phone_number=meta["phone"],
+                                contact_name=meta.get("name") or "",
+                                status=early_status, delivered_counted=early_deliv_counted, read_counted=early_read_counted,
+                                meta_price_brl=early_price_brl, meta_price_category=early_price_cat,
+                                message_type=msg_type, content=content, template_name=template_name,
+                                **vars_dict
+                            )
+                            db_batch.add(msg_status)
                         batch_sent += 1
                         sent_phones_set.add(meta["phone"])
                         sent_message_ids.append(message_id)
@@ -415,22 +467,37 @@ async def process_bulk_send(
                     await rabbitmq.publish_event("trigger_updated", {"trigger_id": trigger_id, "status": "cancelled", "client_id": c_id})
                     return
 
-                db_batch.commit()
+                try:
+                    db_batch.commit()
+                except Exception as e_batch_commit:
+                    logger.error(f"⚠️ [BULK_BATCH_COMMIT_ERR] Erro ao comitar lote no disparo #{trigger_id}: {e_batch_commit}. Isolando falha do lote para prosseguir campanha.")
+                    db_batch.rollback()
 
                 if is_simulate_messaging:
                     for mid in sent_message_ids:
                         all_sim_tasks.append(asyncio.create_task(simulate_lifecycle(mid, trigger_id, c_id)))
 
-                db_batch.refresh(current_trig)
-                progress_payload = build_progress_payload(trigger_id, c_id, current_trig, len(contacts))
+                try:
+                    db_batch.refresh(current_trig)
+                except Exception:
+                    current_trig = db_batch.query(models.ScheduledTrigger).get(trigger_id)
+                progress_payload = build_progress_payload(trigger_id, c_id, current_trig, len(contacts)) if current_trig else {}
                 db_batch.close()
                 db_batch = None
 
-                await rabbitmq.publish_event("bulk_progress", progress_payload)
+                if progress_payload:
+                    await rabbitmq.publish_event("bulk_progress", progress_payload)
 
                 if abort_disparo:
                     return
 
+            except Exception as e_batch_loop:
+                logger.error(f"⚠️ [BULK_BATCH_ERR] Erro isolado no lote (índice {i}) do disparo #{trigger_id}: {e_batch_loop}. Continuando próximos lotes...")
+                if db_batch is not None:
+                    try:
+                        db_batch.rollback()
+                    except Exception:
+                        pass
             finally:
                 if db_batch is not None:
                     db_batch.close()
@@ -485,8 +552,17 @@ async def process_bulk_send(
             t_rec = db_recovery.query(models.ScheduledTrigger).get(trigger_id)
             if t_rec and getattr(t_rec, 'status', None) == 'processing':
                 rec_sent_val = getattr(t_rec, 'total_sent', 0)
+                rec_failed_val = getattr(t_rec, 'total_failed', 0)
+                rec_skipped_val = getattr(t_rec, 'total_skipped', 0)
+                rec_blocked_val = getattr(t_rec, 'total_blocked', 0)
                 rec_sent_int = int(rec_sent_val) if isinstance(rec_sent_val, (int, float)) else 0
-                t_rec.status = 'completed' if rec_sent_int > 0 else 'failed'
+                rec_proc_int = (
+                    rec_sent_int
+                    + (int(rec_failed_val) if isinstance(rec_failed_val, (int, float)) else 0)
+                    + (int(rec_skipped_val) if isinstance(rec_skipped_val, (int, float)) else 0)
+                    + (int(rec_blocked_val) if isinstance(rec_blocked_val, (int, float)) else 0)
+                )
+                t_rec.status = 'completed' if (rec_sent_int > 0 and rec_proc_int >= total) else 'failed'
                 t_rec.failure_reason = f"Erro de processamento: {str(e_fatal_bulk)}"
                 db_recovery.commit()
                 logger.info(f"🛡️ [RECOVERY] Status do Trigger #{trigger_id} atualizado para '{t_rec.status}' após erro fatal.")

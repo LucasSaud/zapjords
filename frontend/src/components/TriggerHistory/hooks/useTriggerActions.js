@@ -142,14 +142,17 @@ export const useTriggerActions = ({ activeClient, setTriggers, fetchHistory, set
         setModalConfig(prev => ({ ...prev, isOpen: false }));
     };
 
-    const handleStartNow = (id) => {
+    const handleStartNow = (id, remainingCount = null) => {
+        const isResumeRemaining = typeof remainingCount === 'number' && remainingCount > 0;
         setModalConfig({
             isOpen: true,
             type: 'start_now',
             id,
-            title: 'Iniciar Disparo',
-            message: 'Tem certeza que deseja iniciar este disparo imediatamente?',
-            confirmText: 'Sim, Iniciar',
+            title: isResumeRemaining ? 'Reenviar para Contatos Restantes' : 'Iniciar Disparo',
+            message: isResumeRemaining
+                ? `Tem certeza que deseja reenviar este disparo apenas para os ${remainingCount} contatos restantes que ainda não receberam?`
+                : 'Tem certeza que deseja iniciar este disparo imediatamente?',
+            confirmText: isResumeRemaining ? `Sim, Enviar Restantes (${remainingCount})` : 'Sim, Iniciar',
             isDangerous: false
         });
     };

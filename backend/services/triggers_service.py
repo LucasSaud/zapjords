@@ -306,7 +306,7 @@ async def start_now_trigger_logic(trigger_id: int, db: Session):
 
     # Verificar se já existe um worker ativo processando esse disparo (heartbeat recente nos últimos 30 segundos)
     is_worker_alive = False
-    if trigger.is_bulk and trigger.processed_data and "last_heartbeat" in trigger.processed_data:
+    if trigger.status in ("processing", "paused") and trigger.is_bulk and trigger.processed_data and "last_heartbeat" in trigger.processed_data:
         try:
             last_hb = datetime.fromisoformat(trigger.processed_data["last_heartbeat"])
             if last_hb.tzinfo is not None:
@@ -327,11 +327,25 @@ async def start_now_trigger_logic(trigger_id: int, db: Session):
 
     logger.info(f"⚡ Forçando início imediato do trigger {trigger_id}")
     
-    # Resetar para estado inicial de execução
+    # Resetar para estado de fila para execução imediata (preservando progresso existente se for retomada)
     trigger.status = "queued"
     if not trigger.scheduled_time:
         trigger.scheduled_time = datetime.now(timezone.utc)
     trigger.failure_reason = None
+
+    # Se o disparo tinha um prazo máximo antigo já expirado, limpa ao forçar início manual
+    if getattr(trigger, "max_dispatch_time", None):
+        mdt = trigger.max_dispatch_time
+        if isinstance(mdt, datetime):
+            mdt_utc = mdt.replace(tzinfo=timezone.utc) if mdt.tzinfo is None else mdt
+            if datetime.now(timezone.utc) > mdt_utc:
+                trigger.max_dispatch_time = None
+
+    pdata = dict(trigger.processed_data or {})
+    pdata["started_at"] = datetime.utcnow().isoformat()
+    pdata.pop("finished_at", None)
+    pdata.pop("last_heartbeat", None)
+    trigger.processed_data = pdata
     
     # Se for bulk, garante que temos contatos pendentes
     if trigger.is_bulk:
