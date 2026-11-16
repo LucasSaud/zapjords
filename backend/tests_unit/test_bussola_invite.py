@@ -146,3 +146,18 @@ async def test_bussola_test_connection_failure():
         result = await execute_test_bussola_connection("http://localhost:8005", "chave_errada")
         assert result["success"] is False
         assert "401" in result["error"]
+
+
+def test_bussola_settings_endpoint_route_registered():
+    """
+    Garante que a rota POST /api/settings/test-bussola-connection está registrada no app FastAPI
+    (evitando 405 Method Not Allowed ao testar a conexão na aba Avançado de Configurações).
+    """
+    from main import app
+    post_paths = [
+        route.path
+        for route in app.routes
+        if hasattr(route, "methods") and "POST" in route.methods
+    ]
+    assert "/api/settings/test-bussola-connection" in post_paths
+    assert "/api/test-bussola-connection" in post_paths

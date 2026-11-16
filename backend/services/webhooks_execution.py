@@ -444,10 +444,18 @@ async def execute_webhook_resend_logic(
             })
             count += 1
 
-    if count > 0:
+        last_trigger_id = st.id
+
+    if count > 0 or 'last_trigger_id' in locals():
         history.status = "processed"
         history.error_message = None
         history.event_type = event_type
+        if 'last_trigger_id' in locals() and last_trigger_id:
+            pdata = dict(history.processed_data or {})
+            pdata["trigger_id"] = last_trigger_id
+            history.processed_data = pdata
+            from sqlalchemy.orm.attributes import flag_modified
+            flag_modified(history, "processed_data")
         db.commit()
 
     logger.info(f"RESEND_SUCCESS | Webhook #{history_id} processado. Disparos gerados: {count}")

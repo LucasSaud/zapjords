@@ -28,6 +28,8 @@ def list_webhook_history(
     skip: int = 0,
     limit: int = 50,
     search: Optional[str] = Query(None),
+    date: Optional[str] = Query(None, description="Filtro de data (YYYY-MM-DD no fuso America/Sao_Paulo)"),
+    delivery_status: Optional[str] = Query(None, description="Filtro por entrega no WhatsApp: delivered, pending, failed"),
     x_client_id: int = Depends(get_validated_client_id),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
@@ -63,8 +65,36 @@ def list_webhook_history(
             filters.append(cast(models.WebhookHistory.payload, String).ilike(f"%{search_digits}%"))
 
         query = query.filter(or_(*filters))
-    
-    history = query.order_by(models.WebhookHistory.created_at.desc()).offset(skip).limit(limit).all()
+
+    if date and date.strip():
+        try:
+            import zoneinfo
+            from datetime import timedelta, timezone as dt_tz
+            brt = zoneinfo.ZoneInfo("America/Sao_Paulo")
+            parsed_day = datetime.strptime(date.strip(), "%Y-%m-%d")
+            start_brt = parsed_day.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=brt)
+            end_brt = start_brt + timedelta(days=1)
+            query = query.filter(
+                models.WebhookHistory.created_at >= start_brt.astimezone(dt_tz.utc),
+                models.WebhookHistory.created_at < end_brt.astimezone(dt_tz.utc),
+            )
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Formato de data inválido. Use YYYY-MM-DD.")
+
+    fetch_limit = max(limit, 200) if (date and date.strip()) or delivery_status else limit
+    history = query.order_by(models.WebhookHistory.created_at.desc()).offset(skip).limit(fetch_limit).all()
+    from services.webhook_delivery_status import enrich_webhook_history_whatsapp_delivery
+    enrich_webhook_history_whatsapp_delivery(db, uuid_obj, history)
+
+    if delivery_status:
+        ds = delivery_status.strip().lower()
+        if ds == "delivered":
+            history = [h for h in history if (h.whatsapp_delivery or {}).get("delivered") is True]
+        elif ds == "pending":
+            history = [h for h in history if (h.whatsapp_delivery or {}).get("status") in ("sent", "queued")]
+        elif ds == "failed":
+            history = [h for h in history if (h.whatsapp_delivery or {}).get("status") in ("failed", "cancelled")]
+
     return history
 
 @router.put("/history/{history_id}", summary="Editar Payload do JSON do Histórico")

@@ -7,6 +7,7 @@ import HistoryItemHeader from './components/HistoryItemHeader';
 import HistoryPayloadViewer from './components/HistoryPayloadViewer';
 import HistoryMappingEditor from './components/HistoryMappingEditor';
 import HistoryExtractedData from './components/HistoryExtractedData';
+import HistoryWhatsappDeliveryStatus from './components/HistoryWhatsappDeliveryStatus';
 
 const HistoryItemCard = ({
   item,
@@ -137,6 +138,9 @@ const HistoryItemCard = ({
               item={item}
               integration={integration}
             />
+
+            {/* Status de Entrega do Disparo no Privado (WhatsApp) */}
+            <HistoryWhatsappDeliveryStatus delivery={item.whatsapp_delivery} />
           </div>
         )}
 

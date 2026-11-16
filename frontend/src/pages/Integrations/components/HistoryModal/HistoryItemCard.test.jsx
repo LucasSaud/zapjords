@@ -139,4 +139,35 @@ describe("HistoryItemCard Tests", () => {
     fireEvent.click(screen.getByText("Cancelar"));
     expect(screen.queryByText(/Mapeamento Manual de Campos/i)).toBeNull();
   });
+
+  it("deve exibir badge de Template entregue no privado quando whatsapp_delivery.delivered for true", () => {
+    const itemDelivered = {
+      ...mockItem,
+      whatsapp_delivery: {
+        status: "delivered",
+        delivered: true,
+        label: "Template entregue no privado",
+        template_name: "boas_vindas_astrowake",
+      },
+    };
+    render(<HistoryItemCard {...defaultProps} item={itemDelivered} />);
+    expect(screen.getByText("Template entregue no privado")).toBeTruthy();
+    expect(screen.getByText(/Chegou no Privado/i)).toBeTruthy();
+    expect(screen.getByText("boas_vindas_astrowake")).toBeTruthy();
+  });
+
+  it("deve exibir falha no disparo no privado quando whatsapp_delivery.status for failed", () => {
+    const itemFailed = {
+      ...mockItem,
+      whatsapp_delivery: {
+        status: "failed",
+        delivered: false,
+        label: "Falha no envio",
+        reason: "Número sem WhatsApp",
+      },
+    };
+    render(<HistoryItemCard {...defaultProps} item={itemFailed} />);
+    expect(screen.getByText("Falha no envio")).toBeTruthy();
+    expect(screen.getByText("Número sem WhatsApp")).toBeTruthy();
+  });
 });

@@ -225,6 +225,11 @@ async def process_webhook_automation(client_id: int, mapping: any, variables: di
             })
 
         history.status = "processed"
+        pdata = dict(history.processed_data or {})
+        pdata["trigger_id"] = st.id
+        history.processed_data = pdata
+        from sqlalchemy.orm.attributes import flag_modified
+        flag_modified(history, "processed_data")
         db.commit()
         logger.info(f"✅ AUTO_SUCCESS | Webhook #{history_id} processado com sucesso. Trigger ID: {st.id}")
 

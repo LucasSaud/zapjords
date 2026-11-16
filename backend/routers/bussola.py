@@ -20,6 +20,7 @@ class TestBussolaRequest(BaseModel):
     api_url: Optional[str] = Field(None, description="URL base da API da Bússola (opcional se já salva)")
     api_key: Optional[str] = Field(None, description="Chave de API externa da Bússola (opcional se já salva)")
 
+@router.post("/settings/test-bussola-connection")
 @router.post("/test-bussola-connection")
 async def handle_test_bussola_connection(
     payload: TestBussolaRequest,

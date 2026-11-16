@@ -44,6 +44,8 @@ const HistoryModal = ({
   handleUpdateCustomFieldsMapping,
 }) => {
   const [stressTestFilter, setStressTestFilter] = React.useState(false);
+  const [webhookHistoryDeliveryFilter, setWebhookHistoryDeliveryFilter] = React.useState('');
+  const [webhookHistoryDateFilter, setWebhookHistoryDateFilter] = React.useState('');
 
   if (!isOpen || !integration) return null;
 
@@ -64,6 +66,23 @@ const HistoryModal = ({
     }
     // 3. Filtro Teste de Escala
     if (stressTestFilter && !item?.processed_data?.is_stress_test) return false;
+    // 4. Filtro Entrega WhatsApp (Privado)
+    if (webhookHistoryDeliveryFilter) {
+      const delivery = item?.whatsapp_delivery;
+      if (webhookHistoryDeliveryFilter === 'delivered' && !delivery?.delivered) return false;
+      if (webhookHistoryDeliveryFilter === 'pending' && !['sent', 'queued'].includes(delivery?.status)) return false;
+      if (webhookHistoryDeliveryFilter === 'failed' && !['failed', 'cancelled'].includes(delivery?.status)) return false;
+    }
+    // 5. Filtro Data de Recebimento (YYYY-MM-DD no fuso local)
+    if (webhookHistoryDateFilter && item?.created_at) {
+      const d = new Date(item.created_at);
+      if (!Number.isNaN(d.getTime())) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        if (`${yyyy}-${mm}-${dd}` !== webhookHistoryDateFilter) return false;
+      }
+    }
     return true;
   });
   const totalPages = Math.ceil(filtered.length / (historyPageSize || 20));
@@ -102,6 +121,10 @@ const HistoryModal = ({
           webhookHistory={webhookHistory}
           stressTestFilter={stressTestFilter}
           setStressTestFilter={setStressTestFilter}
+          webhookHistoryDeliveryFilter={webhookHistoryDeliveryFilter}
+          setWebhookHistoryDeliveryFilter={setWebhookHistoryDeliveryFilter}
+          webhookHistoryDateFilter={webhookHistoryDateFilter}
+          setWebhookHistoryDateFilter={setWebhookHistoryDateFilter}
         />
 
         <div className="flex-1 overflow-y-auto p-8 bg-gray-50/30 dark:bg-[#0b1120]/20">
@@ -118,18 +141,20 @@ const HistoryModal = ({
                 <p className="text-xs text-gray-500 mt-1">
                   {webhookHistorySearch
                     ? `Não encontramos webhooks para "${webhookHistorySearch}"`
-                    : (webhookHistoryStatusFilter || webhookHistoryMappingFilter || stressTestFilter)
+                    : (webhookHistoryStatusFilter || webhookHistoryMappingFilter || stressTestFilter || webhookHistoryDeliveryFilter || webhookHistoryDateFilter)
                     ? "Não encontramos webhooks para os filtros selecionados."
                     : "Esta integração ainda não recebeu webhooks."}
                 </p>
               </div>
-              {(webhookHistorySearch || webhookHistoryStatusFilter || webhookHistoryMappingFilter || stressTestFilter) ? (
+              {(webhookHistorySearch || webhookHistoryStatusFilter || webhookHistoryMappingFilter || stressTestFilter || webhookHistoryDeliveryFilter || webhookHistoryDateFilter) ? (
                 <button
                   onClick={() => {
                     setWebhookHistorySearch('');
                     setWebhookHistoryStatusFilter('');
                     setWebhookHistoryMappingFilter('');
                     setStressTestFilter(false);
+                    setWebhookHistoryDeliveryFilter('');
+                    setWebhookHistoryDateFilter('');
                     fetchHistory(integration.id, '', '');
                   }}
                   className="mt-4 text-xs font-bold bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all cursor-pointer"

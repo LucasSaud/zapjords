@@ -243,6 +243,7 @@ class WebhookHistoryBase(BaseModel):
 class WebhookHistory(WebhookHistoryBase):
     id: int
     integration_id: UUID
+    whatsapp_delivery: Optional[dict] = None
 
     class Config:
         from_attributes = True

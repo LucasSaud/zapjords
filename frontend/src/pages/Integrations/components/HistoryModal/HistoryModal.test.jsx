@@ -113,4 +113,51 @@ describe('HistoryModal Component', () => {
 
     expect(screen.getByText(/1 registro\(s\)/i)).toBeInTheDocument();
   });
+
+  it('filtra por entrega no WhatsApp (Chegou no Privado) e por data de recebimento', () => {
+    const mockItems = [
+      {
+        id: 1,
+        event_type: 'compra_aprovada',
+        status: 'processed',
+        created_at: '2026-11-15T15:00:00Z',
+        processed_data: { name: 'Contato Entregue Dia 15', phone: '5511999990001' },
+        whatsapp_delivery: { status: 'delivered', delivered: true, label: 'Template entregue no privado' },
+      },
+      {
+        id: 2,
+        event_type: 'compra_aprovada',
+        status: 'processed',
+        created_at: '2026-11-15T16:00:00Z',
+        processed_data: { name: 'Contato Falha Dia 15', phone: '5511999990002' },
+        whatsapp_delivery: { status: 'failed', delivered: false, label: 'Falha no envio' },
+      },
+      {
+        id: 3,
+        event_type: 'compra_aprovada',
+        status: 'processed',
+        created_at: '2026-11-14T15:00:00Z',
+        processed_data: { name: 'Contato Entregue Dia 14', phone: '5511999990003' },
+        whatsapp_delivery: { status: 'delivered', delivered: true, label: 'Template entregue no privado' },
+      },
+    ];
+
+    render(
+      <HistoryModal
+        {...defaultProps}
+        webhookHistory={mockItems}
+      />
+    );
+
+    expect(screen.getByText(/3 registro\(s\)/i)).toBeInTheDocument();
+
+    const deliverySelect = screen.getByLabelText('Filtrar por entrega no WhatsApp');
+    fireEvent.change(deliverySelect, { target: { value: 'delivered' } });
+    expect(screen.getByText(/2 registro\(s\)/i)).toBeInTheDocument();
+
+    const dateInput = screen.getByLabelText('Filtrar por data de recebimento');
+    fireEvent.change(dateInput, { target: { value: '2026-11-15' } });
+    expect(screen.getByText(/1 registro\(s\)/i)).toBeInTheDocument();
+    expect(defaultProps.fetchHistory).toHaveBeenCalledWith('int-123', '', '', false, '2026-11-15');
+  });
 });

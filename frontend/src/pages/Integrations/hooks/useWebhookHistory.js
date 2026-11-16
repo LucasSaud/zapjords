@@ -33,12 +33,14 @@ export function useWebhookHistory(activeClient, fetchIntegrations) {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [isSyncingAll]);
 
-  const fetchHistory = useCallback(async (integrationId, status = '', search = '', isSilent = false) => {
+  const fetchHistory = useCallback(async (integrationId, status = '', search = '', isSilent = false, date = '') => {
     if (!activeClient || !integrationId) return;
     currentIntegrationIdRef.current = integrationId;
     if (!isSilent) setLoadingHistory(true);
     try {
-      const res = await fetchWithAuth(`${API_URL}/webhook-integrations/${integrationId}/history?status=${status}&search=${search}`, {}, activeClient.id);
+      const params = new URLSearchParams({ status: status || '', search: search || '' });
+      if (date) params.set('date', date);
+      const res = await fetchWithAuth(`${API_URL}/webhook-integrations/${integrationId}/history?${params.toString()}`, {}, activeClient.id);
       if (res.ok) {
         setWebhookHistory(await res.json());
       }

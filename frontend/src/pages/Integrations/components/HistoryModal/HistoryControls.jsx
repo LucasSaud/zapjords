@@ -20,6 +20,10 @@ const HistoryControls = ({
   webhookHistory,
   stressTestFilter,
   setStressTestFilter,
+  webhookHistoryDeliveryFilter = '',
+  setWebhookHistoryDeliveryFilter,
+  webhookHistoryDateFilter = '',
+  setWebhookHistoryDateFilter,
 }) => {
 
   return (
@@ -131,6 +135,51 @@ const HistoryControls = ({
               <option value="mapped" className="bg-[#0f172a] text-gray-200">COM MAPEAMENTO</option>
               <option value="unmapped" className="bg-[#0f172a] text-gray-200">SEM MAPEAMENTO</option>
             </select>
+          </div>
+
+          <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-xl border border-white/5">
+            <span className="text-[10px] font-black text-gray-400 tracking-wider uppercase whitespace-nowrap">Entrega WhatsApp:</span>
+            <select
+              aria-label="Filtrar por entrega no WhatsApp"
+              value={webhookHistoryDeliveryFilter}
+              onChange={(e) => { setWebhookHistoryDeliveryFilter?.(e.target.value); setHistoryCurrentPage(1); }}
+              className="bg-transparent border-0 text-xs font-bold text-gray-200 cursor-pointer outline-none focus:ring-0"
+            >
+              <option value="" className="bg-[#0f172a] text-gray-200">TODAS</option>
+              <option value="delivered" className="bg-[#0f172a] text-emerald-300">CHEGOU NO PRIVADO ✓✓</option>
+              <option value="pending" className="bg-[#0f172a] text-blue-300">ENVIADO / NA FILA</option>
+              <option value="failed" className="bg-[#0f172a] text-red-300">FALHA / CANCELADO</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-xl border border-white/5">
+            <span className="text-[10px] font-black text-gray-400 tracking-wider uppercase whitespace-nowrap">Data:</span>
+            <input
+              type="date"
+              aria-label="Filtrar por data de recebimento"
+              value={webhookHistoryDateFilter}
+              onChange={(e) => {
+                const newDate = e.target.value;
+                setWebhookHistoryDateFilter?.(newDate);
+                setHistoryCurrentPage(1);
+                fetchHistory(integrationId, webhookHistoryStatusFilter, webhookHistorySearch, false, newDate);
+              }}
+              className="bg-transparent border-0 text-xs font-bold text-gray-200 cursor-pointer outline-none focus:ring-0 [color-scheme:dark]"
+            />
+            {webhookHistoryDateFilter && (
+              <button
+                type="button"
+                onClick={() => {
+                  setWebhookHistoryDateFilter?.('');
+                  setHistoryCurrentPage(1);
+                  fetchHistory(integrationId, webhookHistoryStatusFilter, webhookHistorySearch, false, '');
+                }}
+                className="text-gray-400 hover:text-white text-xs font-bold px-1 cursor-pointer"
+                title="Limpar filtro de data"
+              >
+                ×
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-xl border border-white/5">
