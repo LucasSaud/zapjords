@@ -2,6 +2,7 @@ import React from 'react';
 import { FiMaximize2 } from 'react-icons/fi';
 import ColumnCombobox from './ColumnCombobox';
 import TagChipInput from './TagChipInput';
+import { appbarberFields } from '../appbarberMapping';
 
 export {
   COUNTRY_TO_DDI_MAP,
@@ -17,6 +18,7 @@ import { decomposeAndBuildPhone } from '../phoneUtils';
 
 
 export default function ImportStep2Mapping({
+  importProfile = 'generic', dateSemantics = 'appointment', setDateSemantics,
   previewData,
   mapping,
   setMapping,
@@ -79,7 +81,7 @@ export default function ImportStep2Mapping({
           <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Campos do Sistema</h4>
           
           <div className="space-y-3">
-            {renderSimpleField({ key: 'name', label: 'Nome', required: false })}
+            {renderSimpleField({ key: 'name', label: 'Nome', required: importProfile === 'appbarber' })}
 
             {/* Telefone: coluna única ou composto */}
             <div className="flex flex-col gap-1.5 pt-1 border-t border-gray-100 dark:border-gray-700">
@@ -87,13 +89,13 @@ export default function ImportStep2Mapping({
                 <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 flex items-center gap-1">
                   Telefone <span className="text-red-500">*</span>
                 </label>
-                <button
+                {importProfile !== 'appbarber' && <button
                   type="button"
                   onClick={() => switchPhoneMode(!isPhoneComposite)}
                   className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap"
                 >
                   {isPhoneComposite ? 'Usar uma única coluna' : 'Dividido em várias colunas?'}
-                </button>
+                </button>}
               </div>
 
               {!isPhoneComposite ? (
@@ -207,7 +209,16 @@ export default function ImportStep2Mapping({
             </div>
 
             {renderSimpleField({ key: 'email', label: 'Email', required: false })}
-            {renderSimpleField({ key: 'created_at', label: 'Data e Horário de Chegada', required: false })}
+            {importProfile === 'appbarber' ? (
+              <>
+                {appbarberFields.map(([key, label]) => renderSimpleField({ key, label, required: true }))}
+                <label className="flex gap-2 text-xs text-gray-600 dark:text-gray-300">
+                  <input type="checkbox" checked={dateSemantics === 'completed_visit'} onChange={e => setDateSemantics(e.target.checked ? 'completed_visit' : 'appointment')} />
+                  Conferi que a data se refere a atendimento realizado, excluindo cancelamentos e faltas.
+                </label>
+                <p className="text-xs text-gray-500">Sem essa conferência, a data será identificada como último agendamento. Importar não envia mensagens.</p>
+              </>
+            ) : renderSimpleField({ key: 'created_at', label: 'Data e Horário de Chegada', required: false })}
 
             {/* Etiquetas a Adicionar */}
             <div className="flex flex-col gap-1.5 pt-1 border-t border-gray-100 dark:border-gray-700">
@@ -232,7 +243,7 @@ export default function ImportStep2Mapping({
             </div>
 
             {/* Etiquetas a Remover */}
-            <div className="flex flex-col gap-1.5">
+            {importProfile !== 'appbarber' && <div className="flex flex-col gap-1.5">
               <label className="text-xs font-semibold text-gray-600 dark:text-gray-400">Etiquetas a Remover</label>
               <div className="flex flex-col gap-1">
                 <p className="text-[9px] text-gray-400 font-semibold uppercase tracking-wider">Via coluna CSV</p>
@@ -251,7 +262,7 @@ export default function ImportStep2Mapping({
                   placeholder="ex: prospecto, lista-fria..."
                 />
               </div>
-            </div>
+            </div>}
           </div>
         </div>
 

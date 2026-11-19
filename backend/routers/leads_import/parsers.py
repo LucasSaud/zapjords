@@ -5,7 +5,7 @@ from typing import Optional, List
 from datetime import datetime, timezone
 import pandas as pd
 
-IMPORT_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "static", "imports")
+from .storage import IMPORT_FILES_DIR
 os.makedirs(IMPORT_FILES_DIR, exist_ok=True)
 
 # Lógica de DDI: se o número já possuir DDI (ex: 55 com 12+ dígitos), não duplica.

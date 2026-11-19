@@ -35,6 +35,8 @@ from .parsers import (
     _extract_row_name,
 )
 from .processor import process_import_in_bg
+from .storage import read_upload
+from services.utils.contact_identity import full_phone_key
 
 logger = setup_logger("LeadsImportRouter")
 
@@ -189,22 +191,26 @@ def bulk_create_leads(
 @router.post("/leads/import/preview", summary="Pré-visualizar arquivo de importação")
 async def preview_import(
     file: UploadFile = File(...),
+    import_profile: str = Form("generic"),
     current_user: models.User = Depends(require_premium)
 ):
     """
     Lê o arquivo e retorna os nomes das colunas e as primeiras 3 linhas.
     """
     try:
-        content = await file.read()
+        content = await read_upload(file)
         file_extension = file.filename.split('.')[-1].lower()
         
         # Carregar o DataFrame completo para saber os totais reais
-        if file_extension == 'csv':
+        if import_profile == 'appbarber':
+            from .appbarber import read_appbarber
+            df_full = read_appbarber(content, file_extension)
+        elif file_extension == 'csv':
             df_full = read_csv_smart(content, sep=';')
             if len(df_full.columns) <= 1:
                 df_full = read_csv_smart(content, sep=',')
         elif file_extension in ['xls', 'xlsx']:
-            df_full = pd.read_excel(io.BytesIO(content))
+            df_full = pd.read_excel(io.BytesIO(content), dtype=str)
         else:
             raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use CSV ou Excel.")
 
@@ -225,7 +231,7 @@ async def preview_import(
             
             temp_clean = df_full[p_col].apply(_clean_phone_digits)
             temp_clean = temp_clean[temp_clean.str.len() >= 8]
-            unique_contacts = temp_clean.str[-8:].nunique()
+            unique_contacts = temp_clean.map(full_phone_key).replace('', pd.NA).nunique()
 
         return {
             "headers": headers,
@@ -234,6 +240,10 @@ async def preview_import(
             "total_rows": total_rows,
             "unique_rows": unique_contacts
         }
+    except HTTPException:
+        raise
+    except (ValueError, json.JSONDecodeError) as e:
+        raise HTTPException(400, str(e))
     except Exception as e:
         logger.error(f"Erro ao processar arquivo de preview: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao processar arquivo: {str(e)}")
@@ -255,14 +265,14 @@ async def preview_phones(
         phone_mapping = mapping_dict.get('phone')
         name_col = mapping_dict.get('name')
 
-        content = await file.read()
+        content = await read_upload(file)
         file_extension = file.filename.split('.')[-1].lower()
         if file_extension == 'csv':
             df = read_csv_smart(content, sep=';')
             if len(df.columns) <= 1:
                 df = read_csv_smart(content, sep=',')
         elif file_extension in ['xls', 'xlsx']:
-            df = pd.read_excel(io.BytesIO(content))
+            df = pd.read_excel(io.BytesIO(content), dtype=str)
         else:
             raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use CSV ou Excel.")
 
@@ -322,6 +332,8 @@ async def execute_import(
     mapping: str = Form(...),
     fixed_tags: Optional[str] = Form(None),
     fixed_remove_tags: Optional[str] = Form(None),
+    import_profile: str = Form("generic"),
+    date_semantics: str = Form("appointment"),
     client_id: int = Depends(get_validated_client_id),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(require_premium)
@@ -331,21 +343,33 @@ async def execute_import(
     """
     try:
         mapping_dict = json.loads(mapping)
+        if not isinstance(mapping_dict, dict):
+            raise HTTPException(400, "Mapeamento inválido.")
+        if isinstance(import_profile, str) and import_profile not in ('generic', 'appbarber'):
+            raise HTTPException(400, "Perfil de importação inválido.")
+        mapping_dict = {k: v for k, v in mapping_dict.items() if not k.startswith('_')}
+        if import_profile == 'appbarber':
+            mapping_dict['_profile'] = 'appbarber'
+            mapping_dict['_date_semantics'] = 'completed_visit' if date_semantics == 'completed_visit' else 'appointment'
 
         # Buscar projeto associado ao cliente
         active_client = db.query(models.Client).filter(models.Client.id == client_id).first()
         proj_id = active_client.project_id if active_client else None
 
-        content = await file.read()
+        content = await read_upload(file)
         file_extension = file.filename.split('.')[-1].lower()
 
         # Validação preventiva de colunas mapeadas e conteúdo de telefone
-        if file_extension == 'csv':
+        if import_profile == 'appbarber':
+            from .appbarber import read_appbarber, validate_mapping
+            df_val = read_appbarber(content, file_extension)
+            validate_mapping(mapping_dict, df_val.columns)
+        elif file_extension == 'csv':
             df_val = read_csv_smart(content, sep=';')
             if len(df_val.columns) <= 1:
                 df_val = read_csv_smart(content, sep=',')
         elif file_extension in ['xls', 'xlsx']:
-            df_val = pd.read_excel(io.BytesIO(content))
+            df_val = pd.read_excel(io.BytesIO(content), dtype=str)
         else:
             raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use CSV ou Excel.")
 
@@ -361,11 +385,11 @@ async def execute_import(
                 raise HTTPException(status_code=400, detail=f"A coluna '{pcol}' foi selecionada para Telefone, mas não possui nenhuma informação no arquivo.")
 
         for k, v in mapping_dict.items():
-            if k != 'phone' and v and isinstance(v, str):
+            if k != 'phone' and not k.startswith('_') and v and isinstance(v, str):
                 if v not in df_val.columns:
                     raise HTTPException(status_code=400, detail=f"A coluna '{v}' não foi encontrada no arquivo.")
                 str_series = df_val[v].dropna().astype(str).str.strip()
-                if str_series.empty or str_series.eq('').all() or str_series.str.lower().isin(['nan', 'none', 'null']).all():
+                if import_profile != 'appbarber' and (str_series.empty or str_series.eq('').all() or str_series.str.lower().isin(['nan', 'none', 'null']).all()):
                     raise HTTPException(status_code=400, detail=f"A coluna '{v}' foi selecionada, mas não possui nenhuma informação no arquivo.")
 
         # Validar se após a extração resta ao menos 1 número válido
@@ -402,8 +426,10 @@ async def execute_import(
 
         # Salvar arquivo em disco para possível retomada após reinicialização
         saved_file_path = os.path.join(IMPORT_FILES_DIR, f"import_{history.id}.{file_extension}")
+        os.makedirs(IMPORT_FILES_DIR, mode=0o700, exist_ok=True)
         with open(saved_file_path, "wb") as f:
             f.write(content)
+        os.chmod(saved_file_path, 0o600)
         history.file_path = saved_file_path
         db.commit()
 
@@ -424,6 +450,10 @@ async def execute_import(
             "import_id": history.id,
             "message": "Importação iniciada em segundo plano."
         }
+    except HTTPException:
+        raise
+    except (ValueError, json.JSONDecodeError) as e:
+        raise HTTPException(400, str(e))
     except Exception as e:
         logger.error(f"Erro ao iniciar importação: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao iniciar importação: {str(e)}")
@@ -519,13 +549,13 @@ def get_import_results(
             for lp, lt in lead_records:
                 clean_lp = ''.join(filter(str.isdigit, str(lp or '')))
                 if clean_lp:
-                    phone_tags_map[clean_lp[-8:]] = lt
+                    phone_tags_map[full_phone_key(clean_lp)] = lt
 
     serialized_items = []
     for r in rows:
         clean_p = ''.join(filter(str.isdigit, str(r.phone or '')))
-        s_8 = clean_p[-8:] if len(clean_p) >= 8 else clean_p
-        lead_tags = phone_tags_map.get(s_8) if s_8 else None
+        key = full_phone_key(clean_p)
+        lead_tags = phone_tags_map.get(key) if key else None
         # Se for contato importado ou atualizado e não tiver tags individuais no lead, usa fixed_tags
         row_tags = lead_tags or (history.fixed_tags if r.status in ('imported', 'updated') else None)
 

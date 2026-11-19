@@ -49,12 +49,13 @@ describe('ChatHeaderNav Component', () => {
         expect(onClose).toHaveBeenCalled();
     });
 
-    it('usuário com role "vendedor" não vê os botões de atalho no header', () => {
+    it('vendedor vê os atalhos operacionais autorizados e não vê funis ou integrações', () => {
         render(<ChatHeaderNav {...defaultProps} user={{ role: 'vendedor' }} />);
 
-        expect(screen.queryByText('Kanban')).not.toBeInTheDocument();
-        expect(screen.queryByText('Disparo em Massa')).not.toBeInTheDocument();
+        expect(screen.getByText('Kanban')).toBeInTheDocument();
+        expect(screen.getByText('Disparo em Massa')).toBeInTheDocument();
         expect(screen.queryByText('Funis')).not.toBeInTheDocument();
+        expect(screen.queryByText('Integração Webhook')).not.toBeInTheDocument();
     });
 
     it('container de atalhos possui classes e estilos que ocultam a barra de rolagem horizontal', () => {

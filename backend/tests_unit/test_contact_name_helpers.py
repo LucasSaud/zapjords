@@ -42,6 +42,7 @@ class TestContactNameHelpers:
         db = MagicMock()
         lead_mock = MagicMock()
         lead_mock.name = "Mireille Silva"
+        lead_mock.phone = "559888623013"
         
         # Simula query de webhook_leads
         query_mock = MagicMock()
@@ -60,9 +61,11 @@ class TestContactNameHelpers:
         db = MagicMock()
         numeric_lead = MagicMock()
         numeric_lead.name = "559888623013"
+        numeric_lead.phone = "559888623013"
         
         valid_deal = MagicMock()
         valid_deal.contact_name = "Mireille Silva"
+        valid_deal.contact_phone = "559888623013"
         
         # Primeiro chamado para WebhookLead retorna apenas lead numérico
         # Segundo chamado para SalesDeal retorna deal com nome válido

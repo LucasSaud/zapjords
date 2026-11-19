@@ -47,7 +47,8 @@ async def list_templates(
                 "name": ct.name,
                 "language": ct.language,
                 "category": ct.category or "MARKETING",
-                "status": "APPROVED",
+                # A cached body is not evidence of current Meta approval.
+                "status": "UNVERIFIED",
                 "body_text": ct.body,
                 "components": ct.components or [],
                 "is_archived": ct.is_archived
@@ -86,7 +87,7 @@ async def list_templates(
 
     # Filtrar pausados, pendentes e rejeitados (manter apenas APPROVED) se include_paused for False
     if not include_paused:
-        templates = [t for t in templates if (t.get("status") or "APPROVED").upper() == "APPROVED"]
+        templates = [t for t in templates if (t.get("status") or "UNVERIFIED").upper() == "APPROVED"]
 
     # Mesclar as tags locais, is_pinned e created_at
     try:

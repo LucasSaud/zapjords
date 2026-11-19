@@ -3,13 +3,14 @@ import { FiZap } from 'react-icons/fi';
 import ConnectionStatus from '../ConnectionStatus';
 import GuideButton from './GuideButton';
 import { SIMULATE_MESSAGING, VIEW_TITLES } from './constants';
+import { BARBERSHOP_MODE } from '../../config';
 
 export default function AppContentHeader({ logic }) {
   if (logic.currentView === 'sales_kanban') {
     return null;
   }
 
-  const currentTitle = VIEW_TITLES[logic.currentView];
+  const currentTitle = BARBERSHOP_MODE && logic.currentView === 'leads' ? 'Clientes da barbearia' : VIEW_TITLES[logic.currentView];
 
   return (
     <header className="mb-4 sm:mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3.5 sm:p-6 md:p-8 pb-0">
@@ -45,10 +46,10 @@ export default function AppContentHeader({ logic }) {
         {(SIMULATE_MESSAGING || logic.currentView === 'stress_test') && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 dark:bg-yellow-500/20 border border-yellow-500/30 dark:border-yellow-500/40 text-yellow-700 dark:text-yellow-400 text-xs font-bold rounded-xl animate-pulse" title="Modo Simulação / Teste de Estresse Ativo">
             <FiZap size={14} className="animate-bounce" />
-            <span>Modo Teste de Escala</span>
+            <span>{SIMULATE_MESSAGING ? 'Demonstração sem envio externo' : 'Modo Teste de Escala'}</span>
           </div>
         )}
-        <ConnectionStatus refreshKey={logic.settingsRefreshKey} />
+        {!SIMULATE_MESSAGING && <ConnectionStatus refreshKey={logic.settingsRefreshKey} />}
       </div>
     </header>
   );

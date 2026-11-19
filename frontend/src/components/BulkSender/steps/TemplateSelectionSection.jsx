@@ -5,6 +5,7 @@ import TemplatePreview from '../common/TemplatePreview';
 import { getTemplateCategoryInfo } from '../utils/templateUtils';
 import MediaHeaderUploader from '../common/MediaHeaderUploader';
 import ConfirmationDialog from '../../TriggerHistory/components/ConfirmationDialog';
+import { isUsableTemplate } from '../utils/templateAvailability';
 
 const TemplateSelectionSection = ({
     selectedTemplate,
@@ -30,7 +31,7 @@ const TemplateSelectionSection = ({
         const tagsSet = new Set();
         templates.forEach(t => {
             if (t && Array.isArray(t.tags)) {
-                if (t.status && t.status.toUpperCase() !== 'APPROVED' && t.status.toUpperCase() !== 'ACTIVE') return;
+                if (!isUsableTemplate(t)) return;
                 t.tags.forEach(tag => {
                     if (tag && tag.trim()) {
                         tagsSet.add(tag.trim());
@@ -43,6 +44,7 @@ const TemplateSelectionSection = ({
 
     return (
         <div className="space-y-8 relative z-10">
+            {selectedTemplateObj?.is_demo && <p className="p-3 rounded-xl border border-yellow-500/30 text-yellow-400 text-sm">Modelo fictício para apresentação. Sem aprovação da Meta e sem envio externo.</p>}
             <div>
                 <label className="block text-xs font-black text-slate-500 uppercase tracking-widest mb-3 px-1">Selecione o Template</label>
                 <div className="relative template-dropdown-container">
@@ -158,7 +160,7 @@ const TemplateSelectionSection = ({
                                 {(templates || [])
                                     .filter(t => {
                                         if (!t || !t.name) return false;
-                                        if (t.status && t.status.toUpperCase() !== 'APPROVED' && t.status.toUpperCase() !== 'ACTIVE') return false;
+                                        if (!isUsableTemplate(t)) return false;
                                         const matchesSearch = t.name.toLowerCase().includes((templateSearch || '').toLowerCase());
                                         const matchesTag = !selectedTag || (Array.isArray(t.tags) && t.tags.includes(selectedTag));
                                         
@@ -201,7 +203,7 @@ const TemplateSelectionSection = ({
                                 }
                                 {(templates || []).filter(t => {
                                     if (!t || !t.name) return false;
-                                    if (t.status && t.status.toUpperCase() !== 'APPROVED' && t.status.toUpperCase() !== 'ACTIVE') return false;
+                                    if (!isUsableTemplate(t)) return false;
                                     const matchesSearch = t.name.toLowerCase().includes((templateSearch || '').toLowerCase());
                                     const matchesTag = !selectedTag || (Array.isArray(t.tags) && t.tags.includes(selectedTag));
                                     return matchesSearch && matchesTag;

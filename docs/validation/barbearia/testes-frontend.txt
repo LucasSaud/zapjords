@@ -1,0 +1,74 @@
+
+> zapvoice-frontend@2.3.0 test
+> vitest run --reporter=verbose src/components/BarbershopReactivation.test.jsx src/components/ContactImportModal/appbarberMapping.test.js src/components/ContactImportModal/ContactImportModal.test.jsx src/components/BulkSender/steps/TemplateSelectionSection.test.jsx src/components/BulkSender/utils/templateAvailability.test.js src/pages/ChatConversations/components/ChatHeaderNav.test.jsx
+
+
+ RUN  v4.1.11 /Users/lucas/Documents/GitHub/zapjords/frontend
+
+ ✓ src/components/ContactImportModal/appbarberMapping.test.js > Perfil AppBarber > mapeia os cinco campos sem alterar a data de cadastro 1ms
+ ✓ src/components/BulkSender/utils/templateAvailability.test.js > Disponibilidade do template > exige aprovação conhecida e impede modelo fictício fora da demonstração 1ms
+stdout | src/pages/ChatConversations/components/ChatHeaderNav.test.jsx
+Environment Config Loaded: {
+  API_URL: 'http://localhost:8000/api',
+  WS_URL: 'ws://localhost:8000',
+  WEBHOOK_BASE_URL: 'http://localhost:8000',
+  META_APP_ID: '',
+  META_CONFIG_ID: '',
+  source: 'build-time (import.meta.env)'
+}
+
+stdout | src/components/BarbershopReactivation.test.jsx
+Environment Config Loaded: {
+  API_URL: 'http://localhost:8000/api',
+  WS_URL: 'ws://localhost:8000',
+  WEBHOOK_BASE_URL: 'http://localhost:8000',
+  META_APP_ID: '',
+  META_CONFIG_ID: '',
+  source: 'build-time (import.meta.env)'
+}
+
+stdout | src/components/ContactImportModal/ContactImportModal.test.jsx
+Environment Config Loaded: {
+  API_URL: 'http://localhost:8000/api',
+  WS_URL: 'ws://localhost:8000',
+  WEBHOOK_BASE_URL: 'http://localhost:8000',
+  META_APP_ID: '',
+  META_CONFIG_ID: '',
+  source: 'build-time (import.meta.env)'
+}
+
+ ✓ src/pages/ChatConversations/components/ChatHeaderNav.test.jsx > ChatHeaderNav Component > renderiza o título do painel e os atalhos de navegação incluindo o botão Kanban 35ms
+ ✓ src/pages/ChatConversations/components/ChatHeaderNav.test.jsx > ChatHeaderNav Component > ao clicar no botão Kanban chama onNavigate com "sales_kanban" 7ms
+ ✓ src/pages/ChatConversations/components/ChatHeaderNav.test.jsx > ChatHeaderNav Component > ao clicar no botão de fechar (X) chama onClose e possui classes seguras contra flickering 5ms
+ ✓ src/pages/ChatConversations/components/ChatHeaderNav.test.jsx > ChatHeaderNav Component > vendedor vê os atalhos operacionais autorizados e não vê funis ou integrações 4ms
+ ✓ src/pages/ChatConversations/components/ChatHeaderNav.test.jsx > ChatHeaderNav Component > container de atalhos possui classes e estilos que ocultam a barra de rolagem horizontal 6ms
+ ✓ src/components/BulkSender/steps/TemplateSelectionSection.test.jsx > TemplateSelectionSection > renderiza o badge e botão Resetar Janela de 24h com classes responsivas e sem quebra 120ms
+ ✓ src/components/BulkSender/steps/TemplateSelectionSection.test.jsx > TemplateSelectionSection > abre o modal de confirmação ao clicar no botão Resetar Janela de 24h 30ms
+ ✓ src/components/BulkSender/steps/TemplateSelectionSection.test.jsx > TemplateSelectionSection > chama setIsTemplateDropdownOpen ao clicar no dropdown de seleção 2ms
+ ✓ src/components/BarbershopReactivation.test.jsx > Operação da barbearia > exige conferência antes de carregar público e invalida a revisão ao mudar o filtro 148ms
+ ✓ src/components/BarbershopReactivation.test.jsx > Operação da barbearia > registra pedido e exige confirmação do CRM para concluir 36ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput adiciona tags via Enter e permite remoção 25ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput filtra etiquetas existentes e exibe sugestões correspondentes 6ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput avisa e permite criar nova etiqueta quando não houver correspondência 4ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput seleciona sugestão via teclado (ArrowDown + Enter) 4ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput abre lista de etiquetas cadastradas ao focar com campo vazio e permite seleção 4ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput orienta sobre criar etiqueta quando não houver nenhuma etiqueta cadastrada no sistema 2ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > TagChipInput avisa quando todas as etiquetas cadastradas já foram selecionadas 2ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > ColumnCombobox renderiza opções e filtra por busca 4ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > ImportStep3Success exibe resultado e contadores de importação 2ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > ContactImportModal renderiza header e passo 1 inicial 6ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > adiciona DDI 55 quando número tem 11 dígitos e DDI foi informado manualmente 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > não duplica DDI 55 quando número já possui 13 dígitos começando com 55 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > adiciona DDI 55 para número do RS com DDD 55 (11 dígitos, sem DDI) 1ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > mantém DDI 55 se número do RS já possui 13 dígitos (com DDI) 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > combina coluna DDD separada e número com DDI manual 55 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > converte nome de país na coluna DDI e aplica 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > remove sufixo .0 de float e monta número com DDI 55 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > detecta número de Portugal (351) e não adiciona DDI 55 por padrão 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > permite forçar DDI 55 em número internacional via forceApplyDdi=true 0ms
+ ✓ src/components/ContactImportModal/ContactImportModal.test.jsx > ContactImportModal and Submodules Unit Tests > decomposeAndBuildPhone (DDI manual e verificação inteligente) > permite remover DDI 55 de número brasileiro via forceApplyDdi=false 0ms
+
+ Test Files  6 passed (6)
+      Tests  32 passed (32)
+   Start at  23:09:45
+   Duration  1.27s (transform 490ms, setup 943ms, import 815ms, tests 465ms, environment 3.66s)

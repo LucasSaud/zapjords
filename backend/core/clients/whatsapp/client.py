@@ -17,6 +17,10 @@ class WhatsAppClient:
         self.client_id = client_id
 
     async def send_template(self, phone_number: str, template_name: str, language_code: str = "pt_BR", components: list = None):
+        from services.delivery_policy import delivery_rejection
+        rejection = delivery_rejection(self.client_id, phone_number)
+        if rejection:
+            return {"error": True, "detail": rejection}
         wa_phone_id = get_setting("WA_PHONE_NUMBER_ID", "", client_id=self.client_id)
         wa_token = get_setting("WA_ACCESS_TOKEN", "", client_id=self.client_id)
         
@@ -254,6 +258,12 @@ class WhatsAppClient:
             except: return None
 
     async def _meta_request(self, method: str, path: str, **kwargs):
+        recipient = (kwargs.get('json') or {}).get('to')
+        if method.upper() == 'POST' and path == 'messages' and recipient:
+            from services.delivery_policy import delivery_rejection
+            rejection = delivery_rejection(self.client_id, recipient)
+            if rejection:
+                return {"error": True, "detail": rejection}
         wa_phone_id = get_setting("WA_PHONE_NUMBER_ID", "", client_id=self.client_id)
         wa_token = get_setting("WA_ACCESS_TOKEN", "", client_id=self.client_id)
         if not wa_phone_id or not wa_token: return {"error": True, "detail": "Configuração do WhatsApp ausente"}

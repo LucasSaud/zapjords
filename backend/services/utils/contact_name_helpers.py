@@ -47,13 +47,17 @@ def is_generic_or_phone_name(name: Optional[str]) -> bool:
 def find_best_contact_name_for_phone(db: Session, client_id: int, phone: str) -> Optional[str]:
     """
     Localiza o melhor nome real para o telefone consultando webhook_leads e sales_deals.
-    Utiliza correspondência pelos últimos 8 dígitos para compatibilidade com o 9º dígito.
+    Confere o telefone completo antes de usar nomes encontrados por sufixo.
     """
     if not phone:
         return None
         
     digits = re.sub(r"\D", "", str(phone))
     if len(digits) < 8:
+        return None
+    from services.utils.contact_identity import full_phone_key
+    identity = full_phone_key(phone)
+    if not identity:
         return None
     suffix8 = digits[-8:]
 
@@ -64,7 +68,7 @@ def find_best_contact_name_for_phone(db: Session, client_id: int, phone: str) ->
     ).order_by(models.WebhookLead.updated_at.desc().nullslast()).all()
 
     for ld in leads:
-        if ld.name and not is_generic_or_phone_name(ld.name):
+        if full_phone_key(ld.phone) == identity and ld.name and not is_generic_or_phone_name(ld.name):
             return ld.name.strip()
 
     # 2. Tentar em SalesDeal para o mesmo client_id
@@ -74,7 +78,7 @@ def find_best_contact_name_for_phone(db: Session, client_id: int, phone: str) ->
     ).order_by(models.SalesDeal.updated_at.desc().nullslast()).all()
 
     for deal in deals:
-        if deal.contact_name and not is_generic_or_phone_name(deal.contact_name):
+        if full_phone_key(deal.contact_phone) == identity and deal.contact_name and not is_generic_or_phone_name(deal.contact_name):
             return deal.contact_name.strip()
 
     # 3. Tentar em projeto compartilhado se o cliente pertencer a um projeto
@@ -86,7 +90,7 @@ def find_best_contact_name_for_phone(db: Session, client_id: int, phone: str) ->
         ).order_by(models.WebhookLead.updated_at.desc().nullslast()).all()
 
         for pld in proj_leads:
-            if pld.name and not is_generic_or_phone_name(pld.name):
+            if full_phone_key(pld.phone) == identity and pld.name and not is_generic_or_phone_name(pld.name):
                 return pld.name.strip()
 
     return None

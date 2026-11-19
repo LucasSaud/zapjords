@@ -222,6 +222,12 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # Servindo arquivos estáticos
+@app.middleware('http')
+async def protect_legacy_import_files(request: Request, call_next):
+    if request.url.path == '/static/imports' or request.url.path.startswith('/static/imports/'):
+        return Response(status_code=404)
+    return await call_next(request)
+
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(os.path.join(_BASE_DIR, "static", "uploads"), exist_ok=True)
 app.mount("/static", StaticFiles(directory=os.path.join(_BASE_DIR, "static")), name="static")
@@ -338,6 +344,8 @@ app.include_router(health.router, prefix="/api", tags=["Health"])
 app.include_router(global_vars.router, prefix="/api")
 app.include_router(leads.router, prefix="/api", tags=["Leads"])
 app.include_router(leads_import.router, prefix="/api", tags=["Leads Import"])
+from routers import barbershop
+app.include_router(barbershop.router, prefix="/api", tags=["Barbearia"])
 app.include_router(projects.router, prefix="/api", tags=["Projects"])
 app.include_router(financial.router, prefix="/api", tags=["Financial"])
 app.include_router(backup.router, prefix="/api", tags=["Backup"])

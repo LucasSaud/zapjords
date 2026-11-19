@@ -1,0 +1,337 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0 -- /private/tmp/zapjords-dev-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /private/tmp/zapjords-backup/backend
+configfile: pytest.ini
+plugins: platformdirs-4.14.7, anyio-4.14.2, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 6 items
+
+backend/tests_unit/test_bulk_service.py::test_render_template_body PASSED [ 16%]
+backend/tests_unit/test_bulk_service.py::test_process_bulk_send_empty_contacts PASSED [ 33%]
+backend/tests_unit/test_bulk_service.py::test_process_bulk_send_success FAILED [ 50%]
+backend/tests_unit/test_bulk_service.py::test_process_bulk_send_blocked FAILED [ 66%]
+backend/tests_unit/test_bulk_service.py::test_process_bulk_funnel_success PASSED [ 83%]
+backend/tests_unit/test_leads_import_results.py::test_get_import_results_filtering_and_status_counts FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________ test_process_bulk_send_success ________________________
+backend/tests_unit/test_bulk_service.py:78: in test_process_bulk_send_success
+    await process_bulk_send(
+backend/services/bulk.py:103: in process_bulk_send
+    if existing_status_count > 0:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: '>' not supported between instances of 'MagicMock' and 'int'
+----------------------------- Captured stdout call -----------------------------
+18/11/26 22:46:47 - services.bulk - INFO - Starting BULK SEND 1 | Contacts: 2 | Delay: 1s |  Concurrency: 2 | Lang: pt_BR | DM: False
+------------------------------ Captured log call -------------------------------
+INFO     services.bulk:bulk.py:53 Starting BULK SEND 1 | Contacts: 2 | Delay: 1s |  Concurrency: 2 | Lang: pt_BR | DM: False
+________________________ test_process_bulk_send_blocked ________________________
+backend/tests_unit/test_bulk_service.py:121: in test_process_bulk_send_blocked
+    await process_bulk_send(
+backend/services/bulk.py:103: in process_bulk_send
+    if existing_status_count > 0:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: '>' not supported between instances of 'MagicMock' and 'int'
+----------------------------- Captured stdout call -----------------------------
+18/11/26 22:46:47 - services.bulk - INFO - Starting BULK SEND 1 | Contacts: 1 | Delay: 0s |  Concurrency: 1 | Lang: pt_BR | DM: False
+------------------------------ Captured log call -------------------------------
+INFO     services.bulk:bulk.py:53 Starting BULK SEND 1 | Contacts: 1 | Delay: 0s |  Concurrency: 1 | Lang: pt_BR | DM: False
+_____________ test_get_import_results_filtering_and_status_counts ______________
+backend/tests_unit/test_leads_import_results.py:54: in test_get_import_results_filtering_and_status_counts
+    res_all = get_import_results(import_id=10, status=None, search=None, skip=0, limit=10, x_client_id=1, db=db, current_user=mock_user)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: get_import_results() got an unexpected keyword argument 'x_client_id'
+=============================== warnings summary ===============================
+backend/database.py:113
+  /private/tmp/zapjords-backup/backend/database.py:113: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+../zapjords-dev-venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /private/tmp/zapjords-dev-venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+../zapjords-dev-venv/lib/python3.12/site-packages/passlib/handlers/argon2.py:716
+  /private/tmp/zapjords-dev-venv/lib/python3.12/site-packages/passlib/handlers/argon2.py:716: DeprecationWarning: Accessing argon2.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for structlog's packaging metadata.
+    _argon2_cffi.__version__, max_version)
+
+backend/schemas_domain/funnels.py:7
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:7: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    type: str = Field(..., description="Tipo do passo (message, audio, video, image, delay)", example="message")
+
+backend/schemas_domain/funnels.py:8
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:8: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    content: Optional[str] = Field(None, description="Conteúdo da mensagem ou URL da mídia", example="Olá! Como posso ajudar?")
+
+backend/schemas_domain/funnels.py:9
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:9: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    delay: Optional[int] = Field(0, description="Tempo de espera (se type=delay)", example=5)
+
+backend/schemas_domain/funnels.py:10
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:10: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    timeUnit: Optional[str] = Field("seconds", description="Unidade de tempo (seconds, minutes, hours, days)", example="seconds")
+
+backend/schemas_domain/funnels.py:14
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:14: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    buttons: Optional[List[str]] = Field(None, description="Lista de textos para botões", example=["Sim", "Não"])
+
+backend/schemas_domain/funnels.py:17
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:17: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    fileName: Optional[str] = Field(None, description="Nome personalizado para o arquivo enviado", example="comprovante.pdf")
+
+backend/schemas_domain/funnels.py:21
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:21: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="Nome de identificação do funil", example="Funil de Boas Vindas")
+
+backend/schemas_domain/funnels.py:23
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:23: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    trigger_phrase: Optional[str] = Field(None, description="Palavra(s)-chave que disparam este funil", example="VALIDAR, AULA")
+
+backend/schemas_domain/funnels.py:31
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:31: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    allowed_phone: Optional[str] = Field(None, description="Legado: apenas este número pode disparar", example="5511999999999")
+
+backend/schemas_domain/funnels.py:33
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:33: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    business_hours_start: Optional[str] = Field("08:00", description="Horário de início do período comercial (HH:MM, America/Sao_Paulo)", example="08:00")
+
+backend/schemas_domain/funnels.py:34
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:34: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    business_hours_end: Optional[str] = Field("18:00", description="Horário de fim do período comercial (HH:MM, America/Sao_Paulo)", example="18:00")
+
+backend/schemas_domain/funnels.py:46
+  /private/tmp/zapjords-backup/backend/schemas_domain/funnels.py:46: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Funnel(FunnelBase):
+
+backend/schemas_domain/folders.py:20
+  /private/tmp/zapjords-backup/backend/schemas_domain/folders.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class TriggerFolder(TriggerFolderBase):
+
+backend/schemas_domain/triggers.py:20
+  /private/tmp/zapjords-backup/backend/schemas_domain/triggers.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ScheduledTrigger(ScheduledTriggerBase):
+
+backend/schemas_domain/triggers.py:179
+  /private/tmp/zapjords-backup/backend/schemas_domain/triggers.py:179: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class MessageStatus(BaseModel):
+
+backend/schemas_domain/recurring.py:7
+  /private/tmp/zapjords-backup/backend/schemas_domain/recurring.py:7: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    frequency: str = Field(..., description="'weekly' or 'monthly'", example="weekly")
+
+backend/schemas_domain/recurring.py:10
+  /private/tmp/zapjords-backup/backend/schemas_domain/recurring.py:10: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    scheduled_time: Optional[str] = Field(None, description="HH:mm em UTC (fallback)", example="09:00")
+
+backend/schemas_domain/recurring.py:91
+  /private/tmp/zapjords-backup/backend/schemas_domain/recurring.py:91: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class RecurringTrigger(RecurringTriggerBase):
+
+backend/schemas_domain/whatsapp.py:6
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:6: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    phone_number: str = Field(..., description="Número de destino (formato internacional sem +)", example="5511999999999")
+
+backend/schemas_domain/whatsapp.py:7
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:7: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    template_name: str = Field(..., description="Nome do template aprovado na Meta", example="hello_world")
+
+backend/schemas_domain/whatsapp.py:8
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:8: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    language: Optional[str] = Field("pt_BR", description="Código do idioma", example="pt_BR")
+
+backend/schemas_domain/whatsapp.py:9
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:9: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    components: Optional[List[dict]] = Field(
+
+backend/schemas_domain/whatsapp.py:25
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:25: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="Nome do template (apenas letras minúsculas e underscores)", example="boas_vindas_campanha")
+
+backend/schemas_domain/whatsapp.py:26
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:26: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    category: str = Field("MARKETING", description="Categoria (MARKETING ou UTILITY)", example="MARKETING")
+
+backend/schemas_domain/whatsapp.py:27
+  /private/tmp/zapjords-backup/backend/schemas_domain/whatsapp.py:27: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    language: str = Field("pt_BR", description="Idioma do template", example="pt_BR")
+
+backend/schemas_domain/globals.py:7
+  /private/tmp/zapjords-backup/backend/schemas_domain/globals.py:7: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., description="Nome da variável", example="preco_produto")
+
+backend/schemas_domain/globals.py:8
+  /private/tmp/zapjords-backup/backend/schemas_domain/globals.py:8: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    value: str = Field(..., description="Valor da variável", example="R$ 97,00")
+
+backend/schemas_domain/globals.py:15
+  /private/tmp/zapjords-backup/backend/schemas_domain/globals.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class GlobalVariable(GlobalVariableBase):
+
+backend/schemas_domain/webhooks.py:196
+  /private/tmp/zapjords-backup/backend/schemas_domain/webhooks.py:196: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class WebhookEventMapping(WebhookEventMappingBase):
+
+backend/schemas_domain/webhooks.py:222
+  /private/tmp/zapjords-backup/backend/schemas_domain/webhooks.py:222: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class WebhookIntegration(WebhookIntegrationBase):
+
+backend/schemas_domain/webhooks.py:243
+  /private/tmp/zapjords-backup/backend/schemas_domain/webhooks.py:243: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class WebhookHistory(WebhookHistoryBase):
+
+backend/schemas_domain/leads.py:67
+  /private/tmp/zapjords-backup/backend/schemas_domain/leads.py:67: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class WebhookLead(WebhookLeadBase):
+
+backend/schemas_domain/leads.py:98
+  /private/tmp/zapjords-backup/backend/schemas_domain/leads.py:98: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class WebhookLeadPublicUpsert(BaseModel):
+
+backend/schemas_domain/leads.py:120
+  /private/tmp/zapjords-backup/backend/schemas_domain/leads.py:120: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class HotLead(BaseModel):
+
+backend/schemas_domain/checkout.py:7
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:7: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    slug: str = Field(..., example="mentoria-vip")
+
+backend/schemas_domain/checkout.py:8
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:8: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    title: str = Field(default="Aplicação Mentoria", example="Aplicação Mentoria")
+
+backend/schemas_domain/checkout.py:9
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:9: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    description: Optional[str] = Field(default="Preencha seus dados para continuar com sua aplicação", example="Preencha seus dados para continuar com sua aplicação")
+
+backend/schemas_domain/checkout.py:10
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:10: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    badge_text: Optional[str] = Field(default="⚡ Vagas Limitadas", example="⚡ Vagas Limitadas")
+
+backend/schemas_domain/checkout.py:11
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:11: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    destination_url: str = Field(..., example="https://pay.kiwify.com.br/sample")
+
+backend/schemas_domain/checkout.py:12
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:12: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    tag_name: Optional[str] = Field(default="Checkout Presell", example="Lead Mentoria")
+
+backend/schemas_domain/checkout.py:13
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:13: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    page_tab_title: Optional[str] = Field(default="Aplicação Mentoria", example="Aplicação Mentoria VIP")
+
+backend/schemas_domain/checkout.py:14
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:14: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    button_text: Optional[str] = Field(default="Continuar com Aplicação →", example="Continuar com Aplicação →")
+
+backend/schemas_domain/checkout.py:21
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:21: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CheckoutConfigResponse(CheckoutConfigBase):
+
+backend/schemas_domain/checkout.py:32
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:32: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    name: str = Field(..., example="João Silva")
+
+backend/schemas_domain/checkout.py:33
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:33: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    email: str = Field(..., example="joao@exemplo.com")
+
+backend/schemas_domain/checkout.py:34
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:34: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    phone: str = Field(..., example="5511999999999")
+
+backend/schemas_domain/checkout.py:37
+  /private/tmp/zapjords-backup/backend/schemas_domain/checkout.py:37: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CheckoutLeadResponse(BaseModel):
+
+backend/routers/blocked.py:20
+  /private/tmp/zapjords-backup/backend/routers/blocked.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class BlockedContactResponse(BaseModel):
+
+backend/routers/clients.py:19
+  /private/tmp/zapjords-backup/backend/routers/clients.py:19: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ClientResponse(BaseModel):
+
+backend/routers/backup.py:46
+  /private/tmp/zapjords-backup/backend/routers/backup.py:46: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class BackupConfigResponse(BaseModel):
+
+backend/routers/instagram.py:46
+  /private/tmp/zapjords-backup/backend/routers/instagram.py:46: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class InstagramAutomationResponse(InstagramAutomationBase):
+
+backend/routers/instagram.py:53
+  /private/tmp/zapjords-backup/backend/routers/instagram.py:53: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class InstagramLogResponse(BaseModel):
+
+backend/routers/resting.py:20
+  /private/tmp/zapjords-backup/backend/routers/resting.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class RestingContactResponse(BaseModel):
+
+backend/routers/invitations.py:31
+  /private/tmp/zapjords-backup/backend/routers/invitations.py:31: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class InvitationOut(BaseModel):
+
+backend/routers/projects.py:15
+  /private/tmp/zapjords-backup/backend/routers/projects.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ClientMinResponse(BaseModel):
+
+backend/routers/projects.py:28
+  /private/tmp/zapjords-backup/backend/routers/projects.py:28: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProjectResponse(BaseModel):
+
+backend/routers/api_keys.py:20
+  /private/tmp/zapjords-backup/backend/routers/api_keys.py:20: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ApiKeyOut(BaseModel):
+
+backend/routers/contacts_public.py:40
+  /private/tmp/zapjords-backup/backend/routers/contacts_public.py:40: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ContactUpdatePayload(BaseModel):
+
+backend/main.py:422
+  /private/tmp/zapjords-backup/backend/main.py:422: DeprecationWarning:
+          on_event is deprecated, use lifespan event handlers instead.
+
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+    @app.on_event("startup")
+
+../zapjords-dev-venv/lib/python3.12/site-packages/fastapi/applications.py:4681
+  /private/tmp/zapjords-dev-venv/lib/python3.12/site-packages/fastapi/applications.py:4681: DeprecationWarning:
+          on_event is deprecated, use lifespan event handlers instead.
+
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+    return self.router.on_event(event_type)  # ty: ignore[deprecated]
+
+tests_unit/test_bulk_service.py::test_process_bulk_funnel_success
+  /private/tmp/zapjords-backup/backend/services/bulk_funnel.py:45: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    pdata["started_at"] = datetime.utcnow().isoformat()
+
+tests_unit/test_bulk_service.py::test_process_bulk_funnel_success
+  /private/tmp/zapjords-backup/backend/services/bulk_funnel.py:135: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    pdata["last_heartbeat"] = datetime.utcnow().isoformat()
+
+tests_unit/test_bulk_service.py::test_process_bulk_funnel_success
+  /private/tmp/zapjords-backup/backend/services/bulk_funnel.py:163: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests_unit/test_bulk_service.py::test_process_bulk_funnel_success
+  /private/tmp/zapjords-backup/backend/services/bulk_funnel.py:268: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    pdata["finished_at"] = datetime.utcnow().isoformat()
+
+tests_unit/test_leads_import_results.py::test_get_import_results_filtering_and_status_counts
+  /private/tmp/zapjords-backup/backend/tests_unit/test_leads_import_results.py:26: SAWarning: Can't sort tables for DROP; an unresolvable foreign key dependency exists between tables: chat_conversations, chat_messages; and backend does not support ALTER.  To restore at least a partial sort, apply use_alter=True to ForeignKey and ForeignKeyConstraint objects involved in the cycle to mark these as known cycles that will be ignored.
+    Base.metadata.drop_all(bind=engine)
+
+tests_unit/test_leads_import_results.py::test_get_import_results_filtering_and_status_counts
+  /private/tmp/zapjords-backup/backend/tests_unit/conftest.py:100: SAWarning: Can't sort tables for DROP; an unresolvable foreign key dependency exists between tables: chat_conversations, chat_messages; and backend does not support ALTER.  To restore at least a partial sort, apply use_alter=True to ForeignKey and ForeignKeyConstraint objects involved in the cycle to mark these as known cycles that will be ignored.
+    Base.metadata.drop_all(bind=engine)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests_unit/test_bulk_service.py::test_process_bulk_send_success
+FAILED backend/tests_unit/test_bulk_service.py::test_process_bulk_send_blocked
+FAILED backend/tests_unit/test_leads_import_results.py::test_get_import_results_filtering_and_status_counts
+=================== 3 failed, 3 passed, 69 warnings in 0.36s ===================

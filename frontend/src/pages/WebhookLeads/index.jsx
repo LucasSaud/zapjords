@@ -1,4 +1,6 @@
 import React from 'react';
+import { BARBERSHOP_MODE } from '../../config';
+import BarbershopReactivation from '../../components/BarbershopReactivation';
 import { useClient } from '../../contexts/ClientContext';
 import { useWebhookLeads } from './hooks/useWebhookLeads';
 import Header from './components/Header';
@@ -40,6 +42,7 @@ export default function WebhookLeads({ onNavigateToImportHistory, onNavigateToIn
         onNavigateToChat={onNavigateToChat}
       />
 
+      {BARBERSHOP_MODE && <BarbershopReactivation clientId={activeClient?.id} />}
       <Filters
         search={logic.search}
         setSearch={logic.setSearch}

@@ -1,4 +1,6 @@
 import React from 'react';
+import { BARBERSHOP_MODE } from '../../../config';
+import { SIMULATE_MESSAGING } from '../../../components/AppContent/constants';
 import { FiMessageSquare, FiX, FiHome, FiClock, FiLayers, FiUsers, FiGlobe, FiTrello } from 'react-icons/fi';
 
 const NAV_SHORTCUTS = [
@@ -12,7 +14,7 @@ const NAV_SHORTCUTS = [
 
 export default function ChatHeaderNav({ activeClient, user, onClose, onNavigate }) {
     const userRole = user?.role || 'user';
-    const visibleShortcuts = NAV_SHORTCUTS.filter(s => s.roles.includes(userRole));
+    const visibleShortcuts = NAV_SHORTCUTS.filter(s => s.roles.includes(userRole) && (!BARBERSHOP_MODE || ['bulk_sender', 'history', 'leads'].includes(s.view)));
 
     return (
         <div
@@ -25,7 +27,7 @@ export default function ChatHeaderNav({ activeClient, user, onClose, onNavigate 
                 </div>
                 <div className="min-w-0 overflow-hidden">
                     <h2 className="text-xs sm:text-sm font-bold text-gray-800 dark:text-white tracking-tight truncate">Painel de Atendimento</h2>
-                    {activeClient && <p className="text-[10px] text-gray-500 truncate">Cliente: {activeClient.name}</p>}
+                    {activeClient && <p className="text-[10px] text-gray-500 truncate">Cliente: {activeClient.name}{SIMULATE_MESSAGING ? ' · Demonstração sem envio externo' : ''}</p>}
                 </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">

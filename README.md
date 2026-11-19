@@ -1,5 +1,13 @@
 # ⚡ ZapVoice - Automação WhatsApp API Oficial (v2.3.0 — Versão Estável)
 
+## Adaptação para barbearia / AppBarber — demonstração local
+
+Importação CSV/XLSX dos cinco campos do AppBarber, revisão de clientes inativos e pedidos de agendamento, remarcação e cancelamento no atendimento. A agenda continua no AppBarber: a integração disponível é por arquivo, com conferência manual; não há sincronização pela API do CRM.
+
+O [guia de implementação e apresentação](docs/BARBEARIA_IMPLEMENTACAO.md) contém instalação, configuração, roteiro, testes e pendências. O inicializador `scripts/run_barbershop_demo.py` usa uma base SQLite isolada, dados fictícios e bloqueia envios externos. Não é um inicializador de produção.
+
+Ative `VITE_BARBERSHOP_MODE=true` no frontend para o menu da barbearia. As variáveis de demonstração e bloqueio estão nos exemplos de ambiente do backend e frontend. Nenhuma nova tabela/coluna ou dependência foi adicionada.
+
 Versão estável com **Copiloto IA de Atendimento e Vendas Comerciais com Botão Arrastável em Tempo Real**, **Marcação Automática de Mensagem Lida ao Reagir com Emoji**, **Disparo Individual de Templates Diretamente no Perfil Lateral do Contato no Chat**, **Fixação de até 5 Integrações de Webhook no Topo da Tabela**, **Scroll Dedicado no Editor de Mensagens de Funil sem Afetar o Zoom**, **Esteira Completa de Automações Pré-Push (Release Pipeline)**, **Auditoria de Segurança Integrada (pip-audit + npm audit 100% livres de vulnerabilidades)** e **Arquitetura Modular Clean Code**.
 
 O **ZapVoice** é um ecossistema completo e profissional de automação e marketing de alta performance integrado à **API Oficial do WhatsApp (Meta)**. 

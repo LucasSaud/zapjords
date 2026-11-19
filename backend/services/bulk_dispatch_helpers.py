@@ -115,8 +115,6 @@ async def prefetch_blocked_and_resting(
             p_norm = normalize_phone(b[0])
             if p_norm:
                 blocked_set.add(p_norm)
-                if len(p_norm) >= 8:
-                    blocked_set.add(p_norm[-8:])
 
         now = datetime.utcnow()
         resting_raw = db.query(models.RestingContact.phone).filter(
@@ -127,16 +125,12 @@ async def prefetch_blocked_and_resting(
             p_norm = normalize_phone(r[0])
             if p_norm:
                 blocked_set.add(p_norm)
-                if len(p_norm) >= 8:
-                    blocked_set.add(p_norm[-8:])
 
         if trig_exclusion_list:
             for excl in trig_exclusion_list:
                 p_norm = normalize_phone(excl)
                 if p_norm:
                     blocked_set.add(p_norm)
-                    if len(p_norm) >= 8:
-                        blocked_set.add(p_norm[-8:])
 
         sent_phones_set = await get_sent_phones_set(db, trigger_id)
     except Exception as e:

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BARBERSHOP_MODE } from '../../../config';
 import { FiUser, FiTrash2, FiTag, FiSlash, FiUnlock, FiPlus, FiUpload, FiDownload, FiRefreshCw, FiClock, FiZap, FiSend, FiActivity, FiMessageCircle } from 'react-icons/fi';
 
 export default function Header({
@@ -36,13 +37,13 @@ export default function Header({
             Contatos
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Central de contatos capturados via integrações de webhook.
+            {BARBERSHOP_MODE ? 'Clientes da barbearia importados do AppBarber. A agenda permanece no CRM.' : 'Central de contatos capturados via integrações de webhook.'}
           </p>
         </div>
 
         {/* Atalhos de navegação */}
         <div className="flex flex-wrap items-center gap-2">
-          {onNavigateToIntegrations && (
+          {!BARBERSHOP_MODE && onNavigateToIntegrations && (
             <button
               onClick={onNavigateToIntegrations}
               className="flex items-center gap-2 px-3 py-2 bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-yellow-500 hover:text-white transition-all"

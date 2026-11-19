@@ -338,7 +338,7 @@ export const useRecipientSelector = ({
         addBrazilCode,
         add55ToInput,
         activeClient,
-        isValidated,
+        isValidated, setIsValidated,
         variableFilters, setVariableFilters,
         limitMode, setLimitMode,
         dispatchLimit, setDispatchLimit,

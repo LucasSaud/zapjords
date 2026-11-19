@@ -1,0 +1,33 @@
+Auditoria pré-commit executada em 19/11/2026 com scripts/audit_security.py.
+Resultado: exit 0 segundo a configuração existente do projeto.
+Limites: o script já ignora PYSEC-2026-1325 e CVE-2026-85394; pip-audit reportou 3 ocorrências ignoradas. O npm audit usa --omit=dev. Não equivale a ausência de vulnerabilidades em todas as dependências.
+
+======================================================================
+🛡️  INICIANDO AUDITORIA DE SEGURANÇA COMPLETA (BACKEND + FRONTEND)
+======================================================================
+
+======================================================================
+🐍 [1/2] AUDITORIA DE DEPENDÊNCIAS DO BACKEND (pip-audit)
+Alvo: /Users/lucas/Documents/GitHub/zapjords/backend/requirements.txt
+Consultando bases oficiais de vulnerabilidades (OSV / PyPI)...
+======================================================================
+No known vulnerabilities found, 3 ignored
+
+✅ [BACKEND OK] Nenhuma vulnerabilidade conhecida no Python!
+
+======================================================================
+⚛️ [2/2] AUDITORIA DE DEPENDÊNCIAS DO FRONTEND (npm audit)
+Alvo: /Users/lucas/Documents/GitHub/zapjords/frontend/package.json
+Consultando base de segurança oficial do NPM (GitHub Advisory Database)...
+======================================================================
+found 0 vulnerabilities
+
+✅ [FRONTEND OK] Nenhuma vulnerabilidade conhecida no React / NPM!
+
+======================================================================
+📊 RESUMO GERAL DA AUDITORIA DE SEGURANÇA
+======================================================================
+• Backend (Python / pip-audit): ✅ SEGURO (0 vulnerabilidades)
+• Frontend (React / npm audit):  ✅ SEGURO (0 vulnerabilidades)
+======================================================================
+🎉 [SUCESSO TOTAL] O projeto está 100% livre de vulnerabilidades conhecidas!

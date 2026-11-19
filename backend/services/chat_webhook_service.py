@@ -75,6 +75,9 @@ def after_message_insert(mapper, connection, target):
     db = None
     created_local_db = False
     try:
+        # Internal notes and operational annotations must not leave the inbox.
+        if (target.meta_data or {}).get('private') or (target.content or '').startswith('🔒 Anotação Privada:'):
+            return
         # Para obter o lead_id, bsud e a conversa, precisamos de uma sessão
         from sqlalchemy.orm import Session
         db = Session.object_session(target)

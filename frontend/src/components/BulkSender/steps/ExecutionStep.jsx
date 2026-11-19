@@ -1,4 +1,5 @@
 import React from 'react';
+import { BARBERSHOP_MODE } from '../../../config';
 import RecipientSelector from '../../RecipientSelector';
 import ExclusionListManager from './ExclusionListManager';
 import SchedulingSection from './SchedulingSection';
@@ -92,6 +93,7 @@ const ExecutionStep = ({
     const [showQualityWarningModal, setShowQualityWarningModal] = React.useState(false);
 
     const safeContacts = Array.isArray(finalContacts) ? finalContacts : [];
+    const isDemoTemplate = (templates || []).some(template => template.name === selectedTemplate && template.is_demo);
     const categoryInfo = getTemplateCategoryInfo(selectedTemplate, templates || []) || { type: 'Outros', price: 0.10, key: 'OTHERS' };
     const estimatedCost = safeContacts.length * (categoryInfo.price || 0);
     const formatBRL = (val) => (val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -226,7 +228,7 @@ const ExecutionStep = ({
                     stepNumber="03"
                 />
 
-                <FollowUpSection
+                {!BARBERSHOP_MODE && <FollowUpSection
                     isFollowupEnabled={isFollowupEnabled}
                     setIsFollowupEnabled={setIsFollowupEnabled}
                     followups={followups}
@@ -237,7 +239,7 @@ const ExecutionStep = ({
                     funnels={funnels}
                     chatwootLabels={chatwootLabels}
                     stepNumber={templateButtons && templateButtons.length > 0 ? '04' : '03'}
-                />
+                />}
 
                 <section className="bg-slate-900/60 backdrop-blur-md rounded-[2.5rem] p-10 shadow-2xl border border-white/5 h-fit relative overflow-hidden group/exec">
                     <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full"></div>
@@ -288,7 +290,7 @@ const ExecutionStep = ({
                             </div>
                         </div>
 
-                        <SchedulingSection 
+                        {isDemoTemplate ? <p className="p-4 rounded-xl border border-yellow-500/30 text-yellow-400 text-sm">Prévia com modelo fictício. Envios e agendamentos estão bloqueados nesta demonstração.</p> : <SchedulingSection
                             isRecurring={isRecurring}
                             setIsRecurring={setIsRecurring}
                             setScheduledTime={setScheduledTime}
@@ -308,7 +310,7 @@ const ExecutionStep = ({
                             setIsDynamicLabel={setIsDynamicLabel}
                             selectionMetadata={selectionMetadata}
                             selectedChatwootLabels={selectedChatwootLabels}
-                        />
+                        />}
 
                         <ContactLabelsSection
                             chatwootLabels={chatwootLabels}
@@ -321,11 +323,11 @@ const ExecutionStep = ({
                         <div className="flex flex-col gap-4 pt-6">
                             <button
                                 onClick={handleSendWithQualityCheck}
-                                disabled={isSending}
+                                disabled={isSending || isDemoTemplate}
                                 className={`w-full py-7 rounded-[2rem] font-black text-xl uppercase tracking-[0.4em] shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-6 group relative overflow-hidden ${isSending ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-emerald-900/40'}`}
                             >
                                 <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 skew-x-12"></div>
-                                {isSending ? 'Processando...' : isRecurring ? 'Agendar Disparo Recorrente' : scheduledTime ? 'Agendar Disparo' : 'Iniciar Disparo'}
+                                {isDemoTemplate ? 'Prévia · envio bloqueado' : isSending ? 'Processando...' : isRecurring ? 'Agendar Disparo Recorrente' : scheduledTime ? 'Agendar Disparo' : 'Iniciar Disparo'}
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className={isSending ? 'animate-spin' : 'group-hover:translate-x-2 transition-transform'}><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                             </button>
                             
@@ -348,7 +350,7 @@ const ExecutionStep = ({
                     </div>
                 </section>
 
-                <div className="p-8 bg-blue-500/5 rounded-[2.5rem] border border-blue-500/10">
+                {!BARBERSHOP_MODE && <div className="p-8 bg-blue-500/5 rounded-[2.5rem] border border-blue-500/10">
                     <h4 className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                         Dica de Segurança
@@ -356,7 +358,7 @@ const ExecutionStep = ({
                     <p className="text-xs text-slate-400 leading-relaxed font-medium">
                         Recomendamos um intervalo de pelo menos <b className="text-white">15 seconds</b> para disparos acima de 500 contatos para evitar o bloqueio preventivo da Meta.
                     </p>
-                </div>
+                </div>}
             </div>
         </div>
     );

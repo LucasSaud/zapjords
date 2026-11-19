@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { API_URL } from '../../../config';
+import { API_URL, BARBERSHOP_MODE } from '../../../config';
 import { useClient } from '../../../contexts/ClientContext';
 import { toast } from 'react-hot-toast';
 import { fetchWithAuth } from '../../../AuthContext';
+import { appbarberFields, suggestAppbarberMapping } from '../appbarberMapping';
 
 // Mapeamento de telefone pode ser:
 // - uma string simples: nome da coluna com o telefone completo
@@ -21,6 +22,8 @@ export function getPhoneMappingError(phone) {
 }
 
 export function useContactImport(onClose, onImportComplete) {
+  const [importProfile, setImportProfile] = useState(BARBERSHOP_MODE ? 'appbarber' : 'generic');
+  const [dateSemantics, setDateSemantics] = useState('appointment');
   const { activeClient } = useClient();
   const [step, setStep] = useState(1);
   const [file, setFile] = useState(null);
@@ -75,6 +78,7 @@ export function useContactImport(onClose, onImportComplete) {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
+    formData.append('import_profile', importProfile);
 
     try {
       const response = await fetch(`${API_URL}/leads/import/preview`, {
@@ -103,7 +107,7 @@ export function useContactImport(onClose, onImportComplete) {
         const emailIdx = lowerHeaders.findIndex(h => h.includes('email') || h.includes('mail'));
         if (emailIdx !== -1) newMapping.email = data.headers[emailIdx];
 
-        const dateIdx = lowerHeaders.findIndex(h => h.includes('data') || h.includes('date') || h.includes('chegada') || h.includes('criado') || h.includes('created') || h.includes('entrada') || h.includes('timestamp'));
+        const dateIdx = lowerHeaders.findIndex(h => !/últim|ultim|atendimento|agendamento|visita/.test(h) && (h.includes('data') || h.includes('date') || h.includes('chegada') || h.includes('criado') || h.includes('created') || h.includes('entrada') || h.includes('timestamp')));
         if (dateIdx !== -1) newMapping.created_at = data.headers[dateIdx];
 
         const tagsIdx = lowerHeaders.findIndex(h => (h.includes('tag') || h.includes('etiqueta')) && !h.includes('remove') && !h.includes('limp'));
@@ -112,7 +116,7 @@ export function useContactImport(onClose, onImportComplete) {
         const removeTagsIdx = lowerHeaders.findIndex(h => h.includes('remove') || h.includes('limp') || h.includes('exclui'));
         if (removeTagsIdx !== -1) newMapping.remove_tags = data.headers[removeTagsIdx];
 
-        setMapping(newMapping);
+        setMapping(importProfile === 'appbarber' ? suggestAppbarberMapping(data.headers) : newMapping);
         setStep(2);
       } else {
         let detail = 'Erro ao ler arquivo.';
@@ -128,6 +132,10 @@ export function useContactImport(onClose, onImportComplete) {
   };
 
   const handleExecuteImport = async () => {
+    if (importProfile === 'appbarber' && ['name', 'phone', ...appbarberFields.map(([key]) => key)].some(key => !mapping[key])) {
+      toast.error('Mapeie os cinco campos da exportação AppBarber.');
+      return;
+    }
     const phoneError = getPhoneMappingError(mapping.phone);
     if (phoneError) {
       toast.error(phoneError);
@@ -160,7 +168,7 @@ export function useContactImport(onClose, onImportComplete) {
 
       // 2. Validar outras colunas mapeadas
       for (const [key, colName] of Object.entries(mapping)) {
-        if (key !== 'phone' && typeof colName === 'string' && colName) {
+        if (importProfile !== 'appbarber' && key !== 'phone' && typeof colName === 'string' && colName) {
           if (isColEmpty(colName)) {
             toast.error(`A coluna "${colName}" foi selecionada, mas não possui nenhuma informação no arquivo.`);
             return;
@@ -173,6 +181,8 @@ export function useContactImport(onClose, onImportComplete) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('mapping', JSON.stringify(mapping));
+    formData.append('import_profile', importProfile);
+    formData.append('date_semantics', dateSemantics);
     if (fixedTags.length > 0) formData.append('fixed_tags', fixedTags.join(','));
     if (fixedRemoveTags.length > 0) formData.append('fixed_remove_tags', fixedRemoveTags.join(','));
 
@@ -215,9 +225,12 @@ export function useContactImport(onClose, onImportComplete) {
     setMapping({ name: '', phone: '', email: '', created_at: '', tags: '', remove_tags: '' });
     setFixedTags([]);
     setFixedRemoveTags([]);
+    setImportProfile(BARBERSHOP_MODE ? 'appbarber' : 'generic');
+    setDateSemantics('appointment');
   };
 
   return {
+    importProfile, setImportProfile, dateSemantics, setDateSemantics,
     activeClient, step, setStep, file, setFile, loading, setLoading,
     previewData, setPreviewData, mapping, setMapping, importResult, setImportResult,
     fileInputRef,

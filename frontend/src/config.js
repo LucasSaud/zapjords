@@ -28,6 +28,7 @@ export const WS_URL = raw_ws_url;
 export const WEBHOOK_BASE_URL = raw_webhook_url.replace(/\/+$/, ''); // Remove trailing slashes
 export const META_APP_ID = getEnvVar('META_APP_ID', 'VITE_META_APP_ID', '');
 export const META_CONFIG_ID = getEnvVar('META_CONFIG_ID', 'VITE_META_CONFIG_ID', '');
+export const BARBERSHOP_MODE = String(getEnvVar('BARBERSHOP_MODE', 'VITE_BARBERSHOP_MODE', 'false')) === 'true';
 
 
 /**

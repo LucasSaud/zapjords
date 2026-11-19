@@ -197,6 +197,10 @@ async def send_smart_message(
 ):
     try:
         effective_components = components
+        from services.delivery_policy import delivery_rejection
+        rejection = delivery_rejection(getattr(chatwoot, 'client_id', None), phone, trigger_id)
+        if rejection:
+            return {"error": True, "detail": rejection}
         clean_components = sanitize_template_components(
             effective_components or [],
             contact_name=contact_name,

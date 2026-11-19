@@ -14,7 +14,7 @@ def normalize_phone(phone: str) -> str:
         return ""
 
     # Se tiver 10 ou 11 dígitos sem 55, e o DDD for brasileiro válido (11 a 99), adiciona 55
-    if len(clean) in (10, 11) and not clean.startswith("55"):
+    if len(clean) in (10, 11):
         try:
             ddd = int(clean[:2])
             if 11 <= ddd <= 99:
@@ -29,7 +29,7 @@ def normalize_phone(phone: str) -> str:
         number = clean[4:]
         # DDDs brasileiros (11 a 99)
         try:
-            if 11 <= int(ddd) <= 99:
+            if 11 <= int(ddd) <= 99 and number[0] in '6789':
                 clean = f"55{ddd}9{number}"
         except ValueError:
             pass

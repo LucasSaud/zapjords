@@ -1,7 +1,9 @@
 import React from 'react';
+import { BARBERSHOP_MODE } from '../../config';
 import { FiUser, FiMaximize2, FiRefreshCw, FiTrash2, FiSearch, FiTrello, FiX } from 'react-icons/fi';
 import { BsJournalText, BsStarFill } from 'react-icons/bs';
 import ContactProfileCard from './components/ChatContactSidebar/ContactProfileCard';
+import BarbershopContext from './components/ChatContactSidebar/BarbershopContext';
 import ContactTagsSection from './components/ChatContactSidebar/ContactTagsSection';
 import ContactMediaSection from './components/ChatContactSidebar/ContactMediaSection';
 import ConversationMediaModal from './components/ChatContactSidebar/ConversationMediaModal';
@@ -163,6 +165,7 @@ export default function ChatContactSidebar({
                 setConversations={setConversations}
             />
 
+            <BarbershopContext key={`${activeClientId}:${selectedConvo.id}`} conversationId={selectedConvo.id} clientId={activeClientId} />
             {/* Botão de Atalho para Pesquisar Mensagens (Estilo WhatsApp) */}
             <button
                 type="button"
@@ -195,7 +198,7 @@ export default function ChatContactSidebar({
             </button>
 
             {/* Botão de Atalho para Kanban de Vendas (CRM) */}
-            <button
+            {!BARBERSHOP_MODE && <button
                 type="button"
                 onClick={onOpenCrm || (() => setIsCrmModalOpen(true))}
                 data-testid="crm-add-deal-button"
@@ -208,7 +211,7 @@ export default function ChatContactSidebar({
                     <span>Kanban de Vendas</span>
                 </div>
                 <span className="text-[10px] text-blue-500 font-medium">+ Criar Lead</span>
-            </button>
+            </button>}
 
             {/* Atribuído A */}
             <div className="space-y-2">

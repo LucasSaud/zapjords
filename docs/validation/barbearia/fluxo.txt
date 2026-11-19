@@ -1,0 +1,440 @@
+zapjords-browser-import.log
+Z
+ZapVoice
+CLIENTE ATIVO
+Barbearia Demonstração (ID: 1)
+ENVIOS & CAMPANHAS
+Disparo em Massa
+Histórico
+AUTOMAÇÃO
+Criar Template
+CONTATOS
+Atendimento
+Desempenho da Equipe
+Contatos
+Histórico importação de contatos
+Contatos Bloqueados
+ADMINISTRAÇÃO
+Gestão de Usuários
+
+SUPER ADMIN
+
+Recepção Demonstração
+
+Configurações
+Sair
+Clientes da barbearia
+Demonstração sem envio externo
+Contatos
+
+Clientes da barbearia importados do AppBarber. A agenda permanece no CRM.
+
+DISPARO EM MASSA
+HIST. DE DISPAROS
+ATENDIMENTO
+Sincronizar
+Novo Contato
+Importar
+Exportar CSV
+Atualizar
+Histórico de Importação
+Recuperação de clientes · AppBarber
+
+Selecione clientes pela data do último atendimento realizado. A planilha não informa horários futuros; confira a agenda antes da campanha.
+
+Dias sem atendimento
+Serviço
+Profissional
+Revisar público
+BUSCAR CONTATO
+PERÍODO DE ENTRADA
+Filtrar por data
+ETIQUETAS
+Todas as Etiquetas
+Avançado
+Total: 3 contatos
+BASE DE LEADS
+Mostrar Colunas IA
+3
+	LEAD	EMAIL	ETIQUETAS	ATUALIZADO	CHEGADA	AÇÕES
+
+B
+
+Beto Demonstração
+
+🔗 Webhook
+👤 Barbearia Demonstração
+5521999990001
+
+---
+
+appbarber
+
+19/11/2026, 01:54
+
+19/11/2026, 01:50
+
+
+
+C
+
+Cris Demonstração
+
+🔗 Webhook
+👤 Barbearia Demonstração
+5531999990003
+
+---
+
+appbarber
+
+19/11/2026, 01:54
+
+19/11/2026, 01:50
+
+
+
+A
+
+Ana Demonstração
+
+🔗 Webhook
+👤 Barbearia Demonstração
+5511999990001
+
+---
+
+appbarber
+
+19/11/2026, 01:54
+
+19/11/2026, 01:54
+
+Anterior
+PÁGINA 1 DE 1
+|
+Exibir
+50
+100
+200
+500
+por página
+|
+3 total
+Próxima
+Importar Contatos
+
+Passo 2 de 3
+
+3 contatos (3 únicos) - 3 linhas
+CAMPOS DO SISTEMA
+Nome
+*
+Nome
+Telefone
+*
+Telefone
+Email
+-- Ignorar --
+Data do último atendimento
+*
+Data do ultimo atendimento
+Serviço
+*
+Servico
+Profissional
+*
+Profissional
+Conferi que a data se refere a atendimento realizado, excluindo cancelamentos e faltas.
+
+Sem essa conferência, a data será identificada como último agendamento. Importar não envia mensagens.
+
+Etiquetas a Adicionar
+
+VIA COLUNA CSV
+
+-- Ignorar --
+
+OU DIGITAR MANUALMENTE (PARA TODOS)
+
+Clique para ver as etiquetas cadastradas · Digite para filtrar ou criar · Enter para confirmar
+
+PRÉVIA DOS DADOS
+Nome	Telefone	Data do ultimo atendimento	Servico	Profissional
+Ana Demonstração	11999990001	01/10/2026	Corte	Carlos
+Beto Demonstração	21999990001	10/09/2026	Barba	Rui
+Cris Demonstração	31999990003	03/10/2026	Corte e barba	Carlos
+Voltar
+Finalizar Importação
+AFTER_IMPORT Importação iniciada em segundo plano!
+Z
+ZapVoice
+CLIENTE ATIVO
+Barbearia Demonstração (ID: 1)
+ENVIOS & CAMPANHAS
+Disparo em Massa
+Histórico
+AUTOMAÇÃO
+Criar Template
+CONTATOS
+Atendimento
+Desempenho da Equipe
+Contatos
+Histórico importação de contatos
+Contatos Bloqueados
+ADMINISTRAÇÃO
+Gestão de Usuários
+
+SUPER ADMIN
+
+Recepção Demonstração
+
+Configurações
+Sair
+Histórico de Importação de Contatos
+Demonstração sem envio externo
+Histórico de Importação de Contatos
+
+Acompanhe o progresso e gerencie os nomes das listas carregadas em segundo plano.
+
+Mostrar:
+10
+20
+Ver Contatos
+Atualizar
+SELECIONAR TODOS
+appbarber_demo.csv
+Concluída em: 18/11/2026, 23:12
+100% Concluído
+•
+3 de 3 contatos
+✓ 3 importados com sucesso
+Ver quem foi importado/rejeitado
+Concluída
+appbarber_demo.csv
+Concluída em: 18/11/2026, 22:54
+100% Concluído
+•
+3 de 3 contatos
+✓ 3 importados com sucesso
+Ver quem foi importado/rejeitado
+Concluída
+appbarber_demo.csv
+Concluída em: 18/11/2026, 23:02
+
+Falha no processamento:
+
+[Errno 2] No such file or directory: '/Users/lucas/Documents/GitHub/zapjords/backend/var/imports/import_1.csv'
+
+Importação Falhou
+Mostrando 1 - 3 de 3 listas
+Anterior
+Página 1 de 1
+Próxima
+
+
+zapjords-browser-persistence.log
+PERSISTENCE_OK AppBarber
+Abrir agenda
+
+Base importada por planilha. Agenda atualizada pela recepção no AppBarber.
+
+Último atendimento
+01/10/2026
+Serviço
+Corte
+Profissional
+Carlos
+Pedido
+Agendar horário
+Remarcar horário
+Cancelar horário
+Detalhes do pedido ou da conclusão
+Registrar novo pedido
+
+1 solicitação(ões) concluída(s) manualmente no CRM.
+
+Concluído · remarcar
+
+DEMONSTRAÇÃO FICTÍCIA: resultado da conferência manual — sábado às 10h, Corte, Carlos.
+PRIVATE_FILE_STATUS 404
+
+
+zapjords-browser-campaign.log
+MAPPED_NAMES_OK [ 'Ana', 'Beto', 'Cris' ]
+CAMPAIGN Público carregado. Revise os destinatários e as variáveis do template.
+3 cliente(s) para revisão.
+Z
+ZapVoice
+CLIENTE ATIVO
+Barbearia Demonstração (ID: 1)
+ENVIOS & CAMPANHAS
+Disparo em Massa
+Histórico
+AUTOMAÇÃO
+Criar Template
+CONTATOS
+Atendimento
+Desempenho da Equipe
+Contatos
+Histórico importação de contatos
+Contatos Bloqueados
+ADMINISTRAÇÃO
+Gestão de Usuários
+
+SUPER ADMIN
+
+Recepção Demonstração
+
+Configurações
+Sair
+Disparo em Massa
+Demonstração sem envio externo
+Disparo em Massa
+
+Configure templates, teste variações e automatize seus envios oficiais.
+
+VOLTAR
+🕒
+HISTÓRICO
+📖
+GUIA DE USO
+CONFIGURAÇÃO
+2
+DESTINATÁRIOS
+02
+Base de Contatos
+TOTAL SELECIONADO
+3 Leads
+CUSTO ESTIMADO
+R$ 1,05
+Marketing · R$ 0,35/msg
+Destinatários
+Recuperação de clientes · AppBarber
+
+Selecione clientes pela data do último atendimento realizado. A planilha não informa horários futuros; confira a agenda antes da campanha.
+
+Dias sem atendimento
+Serviço
+Profissional
+Revisar público
+
+3 cliente(s) no público · 0 excluído(s)
+
+Cliente	Dias	Último serviço	Profissional
+Beto Demonstração
+5521999990001
+	69	Barba	Rui
+Ana Demonstração
+5511999990001
+	48	Corte	Carlos
+Cris Demonstração
+5531999990003
+	46	Corte e barba	Carlos
+{{1}}
+Usar valor configurado no template
+Nome completo
+Primeiro nome
+Último serviço
+Profissional
+Último atendimento
+Conferi a agenda futura no AppBarber e a permissão para contatar estes clientes.
+Usar nesta campanha
+MANUAL
+UPLOAD
+ETIQUETAS
+KANBAN
+UM POR LINHA
+💡 Separe variáveis com | — ex: telefone|{{1}}
+PROCESSAR LISTA
+DESTINATÁRIOS
+3
+INVERTER ORDEM
+LIMPAR LISTA
++55
+BLOQUEADOS
+JANELA ABERTA
+SINCRONIZAR COM BANCO DE CONTATOS
+
+Adicione estes números à aba "Contatos" para capturar leads e manter o histórico unificado.
+
+ADICIONAR ETIQUETAS (OPCIONAL)...
+SALVAR CONTATOS
+💡 Segure com o botão esquerdo para arrastar a tabela (horizontal e vertical)
+🏷️
+VER ETIQUETAS DA ABA CONTATOS
+	#	NÚMERO
+{{1}}
+Ações
+INTEIRO
+	STATUS	JANELA 24H
+	1
+5521999990001
+		NOVO	-
+
+	2
+5511999990001
+		NOVO	-
+
+	3
+5531999990003
+		NOVO	-
+Exibir:
+50 contatos
+100 contatos
+200 contatos
+500 contatos
+por página
+MOSTRANDO 1 A 3 DE 3 NÚMEROS FILTRADOS
+Anterior
+Página 1 de 1
+Próxima
+ALCANCE DO DISPARO AOS CONTATOS APTOS
+3 contato(s) apto(s)
+Disparar para TODOS os Aptos
+Envia para todos os contatos válidos e não bloqueados
+Disparar para os N Primeiros
+Limitar disparo aos primeiros aptos da lista
+VALIDAR CANAIS & JANELAS
+Filtro de Exclusão
+IGNORANDO:
+0
+ENTRADA MANUAL
+UPLOAD PLANILHA
+ETIQUETAS
+KANBAN
+ATUALIZAR LISTA
+04
+Opções de Disparo
+INTERVALO
+Seg
+Min
+CONCORRÊNCIA
+JOBS
+
+Prévia com modelo fictício. Envios e agendamentos estão bloqueados nesta demonstração.
+
+Etiquetas do Contato
+APLICA DIRETAMENTE NO CONTATO (E NÃO NA CONVERSA)
+0/25 caracteres
+A etiqueta será vinculada ao perfil do contato no CRM
+PRÉVIA · ENVIO BLOQUEADO
+VOLTAR ETAPA
+COPIAR LISTA
+SEND_BLOCKED {"status":409,"body":{"detail":"Demonstração local: somente prévia. Envio e agendamento exigem WhatsApp validado e worker ativo."}}
+
+
+CONFERÊNCIA DO BANCO (BASE FICTÍCIA)
+
+Importações (id,status,importadas,erros): [(1, 'failed', 0, 0), (2, 'completed', 3, 0), (3, 'completed', 3, 0)]
+
+Contatos únicos: 3
+
+Telefones completos: [('5511999990001',), ('5521999990001',), ('5531999990003',)]
+
+Eventos de pedido: ['pending', 'confirmed']
+
+Marcadores: ["Conclu\u00eddo no AppBarber"]
+
+SMOKE FINAL: Frontend HTTP 200; API sem login HTTP 401; arquivo privado HTTP 404. Campanha em demonstração HTTP 409 (ver registro acima).
+Testes selecionados: 63 backend + 32 frontend aprovados.

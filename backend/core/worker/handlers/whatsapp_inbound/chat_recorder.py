@@ -90,11 +90,15 @@ async def save_inbound_chat_message(
     contacts_map: dict
 ) -> Optional[models.ChatConversation]:
     """Salva a mensagem recebida no chat local do ZapVoice."""
-    suffix_inb = from_phone[-8:] if len(from_phone) >= 8 else from_phone
-    chat_convo = db.query(models.ChatConversation).filter(
+    from services.utils.contact_identity import full_phone_key
+    phone_key = full_phone_key(from_phone)
+    candidates = db.query(models.ChatConversation).filter(
         models.ChatConversation.client_id == target_cid,
-        models.ChatConversation.phone.like(f"%{suffix_inb}")
-    ).first()
+    ).all()
+    matches = [c for c in candidates if phone_key and full_phone_key(c.phone) == phone_key]
+    if len(matches) > 1:
+        raise ValueError('Identidade ambígua: mais de uma conversa para o telefone completo.')
+    chat_convo = matches[0] if matches else None
 
     from services.utils.contact_name_helpers import (
         is_generic_or_phone_name,
@@ -246,13 +250,15 @@ def dispatch_ai_memory(
             lead_id = None
             try:
                 suffix_lead = from_phone[-8:] if len(from_phone) >= 8 else from_phone
-                lead_obj = db.query(models.WebhookLead).filter(
+                lead_candidates = db.query(models.WebhookLead).filter(
                     models.WebhookLead.client_id == target_cid,
                     or_(
                         models.WebhookLead.phone == from_phone,
                         models.WebhookLead.phone.like(f"%{suffix_lead}")
                     )
-                ).first()
+                ).all()
+                exact_leads = [item for item in lead_candidates if full_phone_key(item.phone) == full_phone_key(from_phone)]
+                lead_obj = exact_leads[0] if len(exact_leads) == 1 else None
                 if lead_obj:
                     lead_id = lead_obj.id
             except Exception:

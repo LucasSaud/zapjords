@@ -1,5 +1,25 @@
 # 📋 Regras de Negócio e UX - ZapVoice
 
+## Barbearia / AppBarber — recorte autorizado em 18/11/2026
+
+- [x] A agenda oficial continua no CRM AppBarber, conforme confirmação do usuário.
+- [x] O arquivo exportado contém nome, telefone, data do último atendimento, serviço e profissional.
+- [x] O WhatsApp ainda não está validado e o acesso à API Externa do AppBarber ainda não está disponível. A apresentação local usa dados fictícios e não envia mensagens externas.
+- [x] A implementação foi autorizada em Modo Completo: testes, validação visual e documentação.
+- Pedidos de agendar, remarcar e cancelar são registros internos. Só são concluídos após declaração explícita da recepção de que a operação foi feita no CRM. Isso não altera a agenda automaticamente.
+- Data de último atendimento não altera data de cadastro. Apenas arquivos cuja semântica de atendimento realizado tenha sido conferida entram na revisão de inatividade.
+- O campo de dias sem atendimento é editável; 30 dias é um exemplo inicial do formulário, não uma política comercial aprovada. Bloqueados, contatos em descanso, identidades ambíguas e pedidos pendentes ficam fora desse público.
+- O modo barbearia oculta o copiloto e o follow-up automático na interface. A apresentação prioriza a recepção humana.
+
+### Perguntas para liberar o piloto real (não bloqueiam a demonstração fictícia)
+
+- [ ] [NOVO] Qual relatório do AppBarber garante atendimento realizado, excluindo faltas e cancelamentos, e como a recepção conferirá agendamentos futuros antes de cada campanha?
+- [ ] [NOVO] Qual prazo de inatividade, frequência de convite e limite diário a barbearia aprova, considerando sua capacidade de responder?
+- [ ] [NOVO] Como a barbearia registra a permissão de contato e quem será responsável por registrar pedidos de não receber campanhas antes do próximo envio?
+- [ ] [NOVO] Quais atendentes poderão operar o piloto e qual será o número de teste autorizado para validar envio, recebimento, pausa e bloqueio?
+
+Detalhes técnicos, evidências e pendências: [BARBEARIA_IMPLEMENTACAO.md](BARBEARIA_IMPLEMENTACAO.md).
+
 Este documento centraliza as definições de comportamento do sistema e os requisitos de interface para garantir uma experiência "Premium".
 
 ## 🛠️ Regras de Negócio Centrais

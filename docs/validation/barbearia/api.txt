@@ -1,0 +1,330 @@
+18/11/26 23:06:31 - zapvoice - INFO - 📁 [UPLOADS] Roteador de Uploads carregado com sucesso.
+18/11/26 23:06:32 - zapvoice - WARNING - ⚠️ [STATIC] Pasta assets NÃO encontrada em: /Users/lucas/Documents/GitHub/zapjords/backend/static/dist/assets
+18/11/26 23:06:32 - zapvoice - INFO - 🔒 CORS origins enabled: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5176', 'http://127.0.0.1:5176', 'http://localhost:5177', 'http://127.0.0.1:5177', 'http://localhost:3000', 'http://localhost:8000']
+Demonstração local sem envio externo. Acesso em /Users/lucas/Documents/GitHub/zapjords/backend/var/barbershop_demo/access.json
+INFO:     Started server process [45602]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56542 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56542 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "OPTIONS /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56542 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56546 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "OPTIONS /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "OPTIONS /api/whatsapp/profile HTTP/1.1" 200 OK
+18/11/26 23:06:54 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56554 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:06:54 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 1
+INFO:     connection open
+INFO:     127.0.0.1:56550 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56552 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "OPTIONS /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56552 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56542 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56546 - "GET /api/funnels HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56552 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "OPTIONS /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56542 - "GET /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56546 - "GET /api/leads/filters HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56552 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56542 - "GET /api/leads/filters HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56550 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "OPTIONS /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "GET /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56544 - "OPTIONS /api/barbershop/reactivation?minimum_days=30&service=&professional= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56550 - "GET /api/barbershop/reactivation?minimum_days=30&service=&professional= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56575 - "OPTIONS /api/bulk-send/schedule HTTP/1.1" 200 OK
+18/11/26 23:06:59 - zapvoice - WARNING - ⚠️ [HTTP 409] POST /api/bulk-send/schedule
+INFO:     127.0.0.1:56575 - "POST /api/bulk-send/schedule HTTP/1.1" 409 Conflict
+18/11/26 23:06:59 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:06:59 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 0
+INFO:     connection closed
+INFO:     127.0.0.1:56602 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+18/11/26 23:09:48 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56616 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:09:48 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 1
+INFO:     connection open
+INFO:     127.0.0.1:56610 - "OPTIONS /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "OPTIONS /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56610 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "GET /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56602 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56614 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/chat/labels HTTP/1.1" 200 OK
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56624 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 2
+INFO:     connection open
+INFO:     127.0.0.1:56614 - "OPTIONS /api/chat/ai-config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/chat/conversations?tab=todos&status=open&page=1&limit=20&order_by=recent HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/chat/labels/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/chat/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/crm/pipelines HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "OPTIONS /api/chat/ai-config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/chat/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/crm/pipelines HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "OPTIONS /api/chat/conversations?tab=todos&status=open&page=1&limit=20&order_by=recent HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/chat/labels/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "GET /api/leads/filters HTTP/1.1" 200 OK
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56626 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 3
+INFO:     connection open
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:09:49 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 2
+INFO:     connection closed
+INFO:     127.0.0.1:56614 - "GET /api/chat/ai-config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/chat/conversations?tab=todos&status=open&page=1&limit=20&order_by=recent HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/chat/labels/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/chat/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/crm/pipelines HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/chat/ai-config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/chat/conversations?tab=todos&status=open&page=1&limit=20&order_by=recent HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/chat/labels/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/chat/agents HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/crm/pipelines HTTP/1.1" 200 OK
+18/11/26 23:09:51 - zapvoice - INFO - 🔌 Conexão WS encerrada: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+18/11/26 23:09:51 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 1
+INFO:     connection closed
+INFO:     127.0.0.1:56606 - "OPTIONS /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "OPTIONS /api/triggers/contacts/5511999990001/pending-followup HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "OPTIONS /api/chat/conversations/1/barbershop HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "OPTIONS /api/chat/conversations/1/media-and-docs HTTP/1.1" 200 OK
+18/11/26 23:09:51 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56634 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:09:51 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 2
+INFO:     connection open
+INFO:     127.0.0.1:56606 - "OPTIONS /api/chat/conversations/1/messages?limit=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/chat/conversations/1/media-and-docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/triggers/contacts/5511999990001/pending-followup HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56614 - "GET /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "GET /api/chat/conversations/1/barbershop HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56610 - "GET /api/chat/conversations/1/messages?limit=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/triggers/contacts/5511999990001/pending-followup HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56606 - "GET /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/chat/conversations/1/barbershop HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56604 - "GET /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56602 - "GET /api/quick-messages HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56641 - "GET /api/chat/conversations/1/messages?limit=25 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56641 - "GET /api/chat/conversations?tab=todos&status=open&page=1&limit=20&order_by=recent HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56643 - "GET /api/chat/labels/details HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56645 - "GET /api/leads/filters HTTP/1.1" 200 OK
+18/11/26 23:09:57 - zapvoice - WARNING - ⚠️ [HTTP 404] GET /static/imports/import_2.csv
+INFO:     127.0.0.1:56648 - "GET /static/imports/import_2.csv HTTP/1.1" 404 Not Found
+18/11/26 23:09:57 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:09:57 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 1
+18/11/26 23:09:57 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:09:57 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 0
+INFO:     connection closed
+INFO:     connection closed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [45602]
+
+18/11/26 23:11:18 - zapvoice - INFO - 📁 [UPLOADS] Roteador de Uploads carregado com sucesso.
+18/11/26 23:11:18 - zapvoice - WARNING - ⚠️ [STATIC] Pasta assets NÃO encontrada em: /Users/lucas/Documents/GitHub/zapjords/backend/static/dist/assets
+18/11/26 23:11:18 - zapvoice - INFO - 🔒 CORS origins enabled: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5176', 'http://127.0.0.1:5176', 'http://localhost:5177', 'http://127.0.0.1:5177', 'http://localhost:3000', 'http://localhost:8000']
+Demonstração local sem envio externo. Acesso em /Users/lucas/Documents/GitHub/zapjords/backend/var/barbershop_demo/access.json
+INFO:     Started server process [45832]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:56695 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56697 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56697 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56697 - "OPTIONS /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56699 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56702 - "OPTIONS /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "OPTIONS /api/whatsapp/profile HTTP/1.1" 200 OK
+18/11/26 23:12:11 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56707 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:12:11 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 1
+INFO:     connection open
+INFO:     127.0.0.1:56703 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "OPTIONS /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56702 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56697 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56699 - "GET /api/funnels HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56697 - "GET /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56702 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56697 - "OPTIONS /api/chat/labels HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+INFO:     127.0.0.1:56699 - "GET /api/leads/filters HTTP/1.1" 200 OK
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56703 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56702 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56697 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56695 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "OPTIONS /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "GET /api/leads/filters?only_leads=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56705 - "OPTIONS /api/barbershop/reactivation?minimum_days=30&service=&professional= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "GET /api/barbershop/reactivation?minimum_days=30&service=&professional= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56703 - "OPTIONS /api/bulk-send/schedule HTTP/1.1" 200 OK
+18/11/26 23:12:16 - zapvoice - WARNING - ⚠️ [HTTP 409] POST /api/bulk-send/schedule
+INFO:     127.0.0.1:56705 - "POST /api/bulk-send/schedule HTTP/1.1" 409 Conflict
+18/11/26 23:12:16 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:12:16 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 0
+INFO:     connection closed
+INFO:     127.0.0.1:56733 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "OPTIONS /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56740 - "OPTIONS /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "OPTIONS /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+18/11/26 23:12:36 - zapvoice - INFO - 🔌 [WS] Conexão WS autenticada (demo@barbearia.local) de origin: http://127.0.0.1:5176
+INFO:     127.0.0.1:56745 - "WebSocket /ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vQGJhcmJlYXJpYS5sb2NhbCIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImV4cCI6MTc5NTEzOTM0NX0.KK4ePjEWRYOeY804gLlyxgOsncOeTO-X_yDL3wFIqNE" [accepted]
+18/11/26 23:12:36 - zapvoice - INFO - 🔌 [WS] WebSocket conectado (demo@barbearia.local). Total: 1
+INFO:     connection open
+INFO:     127.0.0.1:56741 - "OPTIONS /api/clients/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "OPTIONS /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "GET /api/whatsapp/profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "GET /api/whatsapp/templates?include_paused=false HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56740 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "OPTIONS /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "GET /api/funnels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "GET /api/clients/ HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56733 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56740 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+[SETTINGS] GET /settings called by user: demo@barbearia.local, client_id: 1
+[SETTINGS] Retrieved 2 settings from DB for client 1
+[SETTINGS] Returning masked settings: ['WA_WEBHOOK_SLUG', 'INSTAGRAM_WEBHOOK_SLUG', 'WHATSAPP_VERIFY_TOKEN', 'WEBHOOK_BASE_URL']
+INFO:     127.0.0.1:56737 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56740 - "GET /api/settings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/chat/labels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "GET /api/funnels?is_archived=false HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/leads?skip=0&limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56740 - "OPTIONS /api/leads/ddi-ddd-filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "OPTIONS /api/leads?skip=0&limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56733 - "OPTIONS /api/leads/ddi-ddd-filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads/ddi-ddd-filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/leads?skip=0&limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "GET /api/leads/ddi-ddd-filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads?skip=0&limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/leads/import/preview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "POST /api/leads/import/preview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "OPTIONS /api/leads/import/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "POST /api/leads/import/execute HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56741 - "OPTIONS /api/leads/import/history?skip=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56737 - "OPTIONS /api/leads/import/history?skip=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56743 - "GET /api/leads/filters HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads?skip=0&limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56740 - "GET /api/leads/import/history?skip=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads/import/history?skip=0&limit=20 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56735 - "GET /api/leads/import/history?skip=0&limit=20 HTTP/1.1" 200 OK
+18/11/26 23:12:41 - zapvoice - INFO - 🔌 Conexão WS encerrada: (1001, '')
+18/11/26 23:12:41 - zapvoice - INFO - 🔌 [WS] WebSocket desconectado (demo@barbearia.local). Total: 0
+INFO:     connection closed

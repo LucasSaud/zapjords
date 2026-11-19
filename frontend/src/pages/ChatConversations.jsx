@@ -10,6 +10,7 @@ import ActiveChatArea from './ChatConversations/components/ActiveChatArea';
 import ChatContactSidebar from './ChatConversations/ChatContactSidebar';
 import ChatModals from './ChatConversations/components/ChatModals';
 import FloatingAIChat from '../components/ai/FloatingAIChat';
+import { BARBERSHOP_MODE } from '../config';
 
 import { useChatEngine } from './ChatConversations/useChatEngine';
 import { useChatMediaUploader } from './ChatConversations/hooks/useChatMediaUploader';
@@ -279,7 +280,7 @@ export default function ChatConversations({ onClose, onNavigate }) {
                     />
 
                     {/* Copiloto de Atendimento com IA (Visível apenas em conversa aberta) */}
-                    {selectedConvo && (
+                    {selectedConvo && !BARBERSHOP_MODE && (
                         <FloatingAIChat 
                             selectedConvo={selectedConvo}
                             onInsertMessage={(text) => {

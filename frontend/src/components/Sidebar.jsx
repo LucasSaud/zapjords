@@ -3,7 +3,7 @@ import { FiHome, FiLayers, FiClock, FiSettings, FiLogOut, FiSlash, FiUsers, FiGi
 import ClientSelector from './ClientSelector';
 import ConfirmModal from './ConfirmModal';
 import { useClient } from '../contexts/ClientContext';
-import { resolveUrl } from '../config';
+import { resolveUrl, BARBERSHOP_MODE } from '../config';
 
 const SIMULATE_MESSAGING = import.meta.env.VITE_SIMULATE_MESSAGING === 'true' || 
                            window._env_?.VITE_SIMULATE_MESSAGING === 'true' || 
@@ -182,6 +182,7 @@ export default function Sidebar({
 
 
                     const categoryItems = menuItems.filter(item => {
+                        if (BARBERSHOP_MODE && !['bulk_sender', 'history', 'templates', 'chat_conversations', 'team_performance', 'leads', 'import_history', 'blocked', 'users'].includes(item.id)) return false;
                         if (item.category !== category.id) return false;
                         
                         // Se for Atendente Humano, só exibe se o WhatsApp tiver o agente de IA ativo nas configurações

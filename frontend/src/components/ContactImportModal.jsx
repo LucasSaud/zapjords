@@ -14,6 +14,7 @@ export default function ContactImportModal({ isOpen, onClose, onImportComplete }
   const {
     activeClient, step, setStep, loading, previewData, mapping, setMapping, importResult,
     fileInputRef, file,
+    importProfile, setImportProfile, dateSemantics, setDateSemantics,
     fixedTags, setFixedTags, fixedRemoveTags, setFixedRemoveTags,
     availableTags,
     handleFileChange, handleExecuteImport, reset
@@ -146,6 +147,16 @@ export default function ContactImportModal({ isOpen, onClose, onImportComplete }
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[calc(100vh-180px)]">
           {step === 1 && (
+            <label className="block mb-5 text-sm font-medium">
+              Origem da planilha
+              <select aria-label="Origem da planilha" value={importProfile || 'generic'} onChange={e => setImportProfile(e.target.value)} disabled={loading} className="block w-full mt-2 rounded-lg border p-2 bg-white dark:bg-gray-900">
+                <option value="generic">Importação geral</option>
+                <option value="appbarber">AppBarber — clientes da barbearia</option>
+              </select>
+              {importProfile === 'appbarber' && <p className="mt-2 text-xs text-gray-500">Use CSV ou XLSX com nome, telefone, último atendimento, serviço e profissional. A agenda continua no AppBarber.</p>}
+            </label>
+          )}
+          {step === 1 && (
             <ImportStep1Upload
               fileInputRef={fileInputRef}
               handleFileChange={handleFileChange}
@@ -155,6 +166,9 @@ export default function ContactImportModal({ isOpen, onClose, onImportComplete }
 
           {step === 2 && previewData && (
             <ImportStep2Mapping
+              importProfile={importProfile}
+              dateSemantics={dateSemantics}
+              setDateSemantics={setDateSemantics}
               previewData={previewData}
               mapping={mapping}
               setMapping={setMapping}

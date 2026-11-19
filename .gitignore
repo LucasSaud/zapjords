@@ -93,3 +93,6 @@ backend/compactar_docker.bat
 
 scratch_backups/
 *.bak
+
+# Arquivos privados de importação (dados de clientes)
+backend/var/

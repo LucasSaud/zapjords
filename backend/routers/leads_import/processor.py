@@ -35,6 +35,20 @@ def process_import_in_bg(
         history = db.query(models.ContactImportHistory).filter(models.ContactImportHistory.id == import_id).first()
         if not history:
             return
+        if history.status == 'completed':
+            return
+
+        if mapping_dict.get('_profile') == 'appbarber':
+            from .appbarber import process_appbarber
+            if content is None:
+                from .storage import IMPORT_FILES_DIR
+                from pathlib import Path
+                saved = Path(history.file_path or '').resolve()
+                if saved.parent != Path(IMPORT_FILES_DIR).resolve():
+                    raise ValueError('Arquivo privado não disponível para retomada.')
+                content = saved.read_bytes()
+            process_appbarber(db, history, content, file_extension, mapping_dict, client_id, fixed_tags)
+            return
         
         history.status = "processing"
         db.commit()
@@ -340,6 +354,7 @@ def process_import_in_bg(
     except Exception as e:
         logger.error(f"❌ [LEADS IMPORT] Erro ao processar arquivo #{import_id}: {e}")
         try:
+            db.rollback()
             history = db.query(models.ContactImportHistory).filter(models.ContactImportHistory.id == import_id).first()
             if history:
                 history.status = "failed"
@@ -349,4 +364,11 @@ def process_import_in_bg(
         except Exception:
             pass
     finally:
+        try:
+            from .storage import clean_import_file
+            if history and history.status in ('completed', 'failed'):
+                clean_import_file(history)
+                db.commit()
+        except Exception:
+            db.rollback()
         db.close()

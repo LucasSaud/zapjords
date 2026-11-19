@@ -1,5 +1,7 @@
 
 import React, { useEffect } from 'react';
+import { BARBERSHOP_MODE } from '../../config';
+import BarbershopReactivation from '../BarbershopReactivation';
 import { useRecipientSelector } from './hooks/useRecipientSelector/index';
 import Tabs from './components/Tabs';
 import ManualInput from './components/ManualInput';
@@ -65,6 +67,9 @@ const RecipientSelector = ({
             <div className="bg-slate-900/40 backdrop-blur-sm p-1 rounded-3xl border border-white/5 p-8 relative z-30 group">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50"></div>
 
+                {BARBERSHOP_MODE && <BarbershopReactivation clientId={hook.activeClient?.id} templateVariables={templateVariables} onSelect={contacts => {
+                    hook.setMode('manual'); hook.setContacts(contacts); hook.setShowList(true); hook.setIsValidated(false);
+                }} />}
                 <Tabs mode={hook.mode} setMode={hook.setMode} />
 
                 {hook.mode === 'manual' ? (
